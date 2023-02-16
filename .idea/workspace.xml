@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/forum/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/forum/src/main/java/com/pidev/esprit/ForumApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/forum/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/forum/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/foyer/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/foyer/src/main/java/com/pidev/esprit/FoyerApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/foyer/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/foyer/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/paiement/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/PaiementApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/paiement/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/paiement/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/restaurant/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/pidev/esprit/ServerApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/src/main/resources/banner.txt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2LoaH6anYhQefVJBIKkbZ4nyWgO" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "1.8 (2)",
+    "spring.configuration.checksum": "ac367927f7f2c2c9deaf2ad484ead4e4"
+  }
+}]]></component>
+  <component name="RunManager" selected="Spring Boot.PaiementApplication">
+    <configuration name="ForumApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="forum" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.ForumApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pidev.esprit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FoyerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="foyer" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.FoyerApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pidev.esprit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PaiementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="paiement" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.PaiementApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pidev.esprit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RestaurantApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="restaurant" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.RestaurantApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pidev.esprit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="user" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.UserApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pidev.esprit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.PaiementApplication" />
+        <item itemvalue="Spring Boot.ForumApplication" />
+        <item itemvalue="Spring Boot.FoyerApplication" />
+        <item itemvalue="Spring Boot.RestaurantApplication" />
+        <item itemvalue="Spring Boot.UserApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="" />
+      <created>1676539800941</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1676539800941</updated>
+      <workItem from="1676539805014" duration="148000" />
+      <workItem from="1676539963040" duration="1788000" />
+      <workItem from="1676542637721" duration="4927000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
