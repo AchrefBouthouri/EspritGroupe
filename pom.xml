@@ -16,6 +16,7 @@
         <module>forum</module>
         <module>paiement</module>
         <module>gateway</module>
+        <module>maintanance</module>
     </modules>
 
     <properties>
