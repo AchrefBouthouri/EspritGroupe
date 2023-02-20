@@ -15,6 +15,7 @@
         <module>foyer</module>
         <module>forum</module>
         <module>paiement</module>
+        <module>gateway</module>
     </modules>
 
     <properties>
