@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="crud">
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="Crud Generation" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -186,7 +172,7 @@
       <workItem from="1676909869286" duration="4027000" />
       <workItem from="1676913960164" duration="1234000" />
       <workItem from="1677070038217" duration="23990000" />
-      <workItem from="1677143624044" duration="3358000" />
+      <workItem from="1677143624044" duration="3918000" />
     </task>
     <task id="LOCAL-00001" summary="second commit">
       <created>1676914070431</created>
@@ -195,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676914070431</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Crud Generation">
+      <created>1677147273687</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1677147273687</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,6 +207,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="second commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="second commit" />
+    <MESSAGE value="Crud Generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Crud Generation" />
   </component>
 </project>
