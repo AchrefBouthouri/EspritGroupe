@@ -4,37 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="f-">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forum/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/forum/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Enum" />
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
-    <option name="PREVIOUS_COMMIT_AUTHORS">
-      <list>
-        <option value="amineteyeb &lt;mohamedamine.teyeb@esprit.tn&gt;" />
-      </list>
-    </option>
-    <option name="PUSH_TAGS">
-      <GitPushTagMode>
-        <option name="argument" value="--tags" />
-        <option name="title" value="All" />
-      </GitPushTagMode>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JpbToolWindowState">
@@ -51,9 +34,8 @@
     </option>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectId" id="2LoaH6anYhQefVJBIKkbZ4nyWgO" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
@@ -72,7 +54,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "1.8 (2)",
-    "last_opened_file_path": "C:/Users/slimd/OneDrive/Bureau/pi/EspritGroupe/booking-service",
+    "last_opened_file_path": "C:/Users/user/Desktop/Nouveau dossier (2)/EspritGroupe",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
@@ -104,7 +86,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.ForumApplication">
+  <component name="RunManager" selected="Spring Boot.RestaurantApplication">
     <configuration name="ApiGateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.ApiGateway" />
@@ -141,6 +123,13 @@
     <configuration name="ForumApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="forum" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.ForumApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MaintenanceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="maintanance" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.MaintenanceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -199,6 +188,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Spring Boot.MaintenanceApplication" />
       <item itemvalue="Spring Boot.AvailabilityServiceApplication" />
       <item itemvalue="Spring Boot.ForumApplication" />
       <item itemvalue="Spring Boot.PaiementApplication" />
@@ -211,11 +201,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.RestaurantApplication" />
+        <item itemvalue="Spring Boot.ApiGateway" />
         <item itemvalue="Spring Boot.ServerApplication" />
         <item itemvalue="Spring Boot.BookingServiceApplication" />
-        <item itemvalue="Spring Boot.ApiGateway" />
         <item itemvalue="Spring Boot.UserApplication" />
-        <item itemvalue="Spring Boot.RestaurantApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -240,6 +230,7 @@
       <workItem from="1677070038217" duration="23990000" />
       <workItem from="1677143624044" duration="3918000" />
       <workItem from="1677421863999" duration="2697000" />
+      <workItem from="1677444406905" duration="638000" />
     </task>
     <task id="LOCAL-00001" summary="second commit">
       <created>1676914070431</created>
@@ -255,25 +246,8 @@
       <option name="project" value="LOCAL" />
       <updated>1677147273687</updated>
     </task>
-    <task id="LOCAL-00003" summary="f-">
-      <created>1677444152993</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1677444152993</updated>
-    </task>
-    <task id="LOCAL-00004" summary="f-">
-      <created>1677444260848</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1677444260848</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="3" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -300,11 +274,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="second commit" />
-    <MESSAGE value="Crud Generation" />
-    <MESSAGE value="f-" />
-    <option name="LAST_COMMIT_MESSAGE" value="f-" />
   </component>
 </project>
