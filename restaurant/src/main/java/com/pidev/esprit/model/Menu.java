@@ -2,11 +2,11 @@ package com.pidev.esprit.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -14,7 +14,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Menu {
+@EqualsAndHashCode
+public class Menu implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +23,9 @@ public class Menu {
     private String description;
     private BigDecimal price;
     private Boolean available;
+    @Enumerated(EnumType.STRING)
     private Category category;
+
+
 
 }
