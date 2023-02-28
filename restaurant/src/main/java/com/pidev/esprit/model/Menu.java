@@ -25,6 +25,10 @@ public class Menu implements Serializable {
     private Boolean available;
     @Enumerated(EnumType.STRING)
     private Category category;
+    @OneToMany(cascade = CascadeType.ALL)
+    List<MenuPreferences>menuPreferences;
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Repas>repas;
 
 
 

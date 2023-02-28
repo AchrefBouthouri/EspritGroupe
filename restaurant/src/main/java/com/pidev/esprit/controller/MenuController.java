@@ -47,4 +47,5 @@ public class MenuController {
     public void deleteMenu(@PathVariable String name) {
         menuService.deleteMenu(name);
     }
+
 }

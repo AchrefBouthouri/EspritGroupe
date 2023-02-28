@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 public class MenuPrefrencesController {
     @Autowired
 MenuPreferencesServices menuPreferencesServices;
+    @PutMapping("/add/{id}")
+    public void ajouterPreference(@RequestBody MenuPreferences mp , @RequestParam long id){
+        menuPreferencesServices.AjouterPreferencesMenu(mp,id);
 
+
+    }
 
 }
