@@ -3,6 +3,7 @@ package com.pi.roomservice.controller;
 
 import com.pi.roomservice.dto.DormRequest;
 import com.pi.roomservice.dto.DormResponse;
+import com.pi.roomservice.model.Room;
 import com.pi.roomservice.service.DormService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,5 +41,11 @@ public class DormController {
     @DeleteMapping("/{id}")
     public void deleteDorm(@PathVariable String id) {
         dormService.deleteDorm(id);
+    }
+
+    @GetMapping("/{name}/rooms")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Room> getRoomsByDormName(@PathVariable String name) {
+        return dormService.getRoomsByDormName(name);
     }
 }
