@@ -63,7 +63,15 @@ public class RoomController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomResponse> getRoomById(@PathVariable String id) {
+        RoomResponse roomResponse = roomService.getRoomById(id);
+        if (roomResponse != null) {
+            return ResponseEntity.ok(roomResponse);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @GetMapping("/availability")
     public ResponseEntity<Boolean> checkAvailability(@RequestParam String roomId,

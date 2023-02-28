@@ -14,4 +14,7 @@ public interface RoomAvailabilityRepository extends JpaRepository<RoomAvailabili
     RoomAvailability findByRoomIdAndStartDateAndEndDate(String roomId, LocalDate startDate, LocalDate endDate);
 
     Object findByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate startDate, LocalDate endDate);
+
+    List<RoomAvailability> findAllByStartDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate startDate, LocalDate endDate);
 }
+

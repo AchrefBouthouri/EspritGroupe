@@ -2,6 +2,7 @@ package com.pi.roomservice.service;
 
 import com.pi.roomservice.dto.DormRequest;
 import com.pi.roomservice.dto.DormResponse;
+import com.pi.roomservice.model.Room;
 import com.pi.roomservice.repository.DormRepository;
 import com.pi.roomservice.repository.RoomRepository;
 import com.pi.roomservice.model.Dorm;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -84,5 +86,15 @@ public class DormService {
                 .address(dorm.getAddress())
                 .rooms(dorm.getRooms().stream().map(roomService::mapToRoomResponse).toList())
                 .build();
+    }
+    public List<Room> getRoomsByDormName(String name) {
+        Dorm dorm = dormRepository.findByName(name);
+
+        if (dorm == null) {
+            log.error("Dorm with name {} not found", name);
+            return Collections.emptyList();
+        }
+
+        return dorm.getRooms();
     }
 }

@@ -22,5 +22,6 @@ public class Booking {
     private LocalDate startDate;
     private LocalDate endDate;
     private String userEmail;
+    private Double TotalPrice;
 
 }

@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -49,6 +50,7 @@ public class RoomService {
                 .roomType(roomRequest.getRoomType())
                 .description(roomRequest.getDescription())
                 .surface(roomRequest.getSurface())
+                .price(roomRequest.getPrice())
                 .build();
 
         dorm.getRooms().add(room);
@@ -66,6 +68,7 @@ public class RoomService {
                 .roomType(roomRequest.getRoomType())
                 .description(roomRequest.getDescription())
                 .surface(roomRequest.getSurface())
+                .price(roomRequest.getPrice())
                 .build();
         roomRepository.save(room);
 
@@ -89,7 +92,16 @@ public class RoomService {
             return mapToRoomResponse(room);
         }
     }
-
+    public RoomResponse getRoomById(String id) {
+        Optional<Room> roomOptional = roomRepository.findById(id);
+        if (roomOptional.isPresent()) {
+            Room room = roomOptional.get();
+            return mapToRoomResponse(room);
+        } else {
+            log.error("Room with number {} not found", id);
+            return null;
+        }
+    }
     public void updateRoom(String roomNumber, RoomRequest roomRequest) {
         Room room = roomRepository.findByRoomNumber(roomNumber);
 
@@ -99,6 +111,7 @@ public class RoomService {
             room.setRoomType(roomRequest.getRoomType());
             room.setDescription(roomRequest.getDescription());
             room.setSurface(roomRequest.getSurface());
+            room.setPrice(roomRequest.getPrice());
 
             roomRepository.save(room);
 
@@ -125,12 +138,13 @@ public class RoomService {
                 .roomType(room.getRoomType())
                 .description(room.getDescription())
                 .surface(room.getSurface())
+                .price(room.getPrice())
                 .build();
     }
 
 
     public Boolean checkAvailability(String roomId, LocalDate startDate, LocalDate endDate) {
-        String availabilityUrl = "http://localhost:8099/api/availability/check?roomId="
+        String availabilityUrl = "http://availability-service/api/availability/check?roomId="
                 + roomId + "&startDate=" + startDate.toString() + "&endDate=" + endDate.toString();
 
         RestTemplate restTemplate = new RestTemplate();

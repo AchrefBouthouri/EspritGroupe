@@ -12,24 +12,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class RoomAvailabilityService {
     @Autowired
     private RoomAvailabilityRepository roomAvailabilityRepository;
+    private final WebClient.Builder webClientBuilder;
 
-//    public boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDate endDate) {
-//        List<RoomAvailability> roomAvailabilities = roomAvailabilityRepository.findByRoomId(roomId);
-//        for (RoomAvailability roomAvailability : roomAvailabilities) {
-//            if (startDate.isBefore(roomAvailability.getEndDate()) && endDate.isAfter(roomAvailability.getStartDate())) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
-//}
 public boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDate endDate) {
     List<RoomAvailability> roomAvailabilities = roomAvailabilityRepository.findByRoomId(roomId);
     for (RoomAvailability roomAvailability : roomAvailabilities) {
@@ -46,10 +40,9 @@ public boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDa
 
         for (RoomAvailability roomAvailability : roomAvailabilities) {
             if (startDate.isBefore(roomAvailability.getEndDate()) && endDate.isAfter(roomAvailability.getStartDate())) {
-                // The booking period overlaps with an existing availability period
-                // Split the existing availability period into two periods: before the booking and after the booking
+                // date exicte
+
                 if (startDate.isAfter(roomAvailability.getStartDate())) {
-                    // There is an availability period before the booking period
                     updatedRoomAvailabilities.add(RoomAvailability.builder()
                             .roomId(roomAvailability.getRoomId())
                             .startDate(roomAvailability.getStartDate())
@@ -57,7 +50,6 @@ public boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDa
                             .build());
                 }
                 if (endDate.isBefore(roomAvailability.getEndDate())) {
-                    // There is an availability period after the booking period
                     updatedRoomAvailabilities.add(RoomAvailability.builder()
                             .roomId(roomAvailability.getRoomId())
                             .startDate(endDate.plusDays(1))
@@ -65,19 +57,16 @@ public boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDa
                             .build());
                 }
             } else {
-                // The booking period does not overlap with this availability period
+                // date disponible
                 updatedRoomAvailabilities.add(roomAvailability);
             }
         }
-
-        // Add the new booking period to the updated availability periods
         updatedRoomAvailabilities.add(RoomAvailability.builder()
                 .roomId(roomId)
                 .startDate(startDate)
                 .endDate(endDate)
                 .build());
 
-        // Save the updated availability periods to the database
         roomAvailabilityRepository.deleteAll(roomAvailabilities);
         roomAvailabilityRepository.saveAll(updatedRoomAvailabilities);
     }

@@ -22,5 +22,6 @@ public class Room {
     private RoomType roomType;
     private String description;
     private Integer surface;
+    private Double price;
 }
 
