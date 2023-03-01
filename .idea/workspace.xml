@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="f-" />
+    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="f-">
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/RepasController.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/RepasController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
