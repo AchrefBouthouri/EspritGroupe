@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class StripeService {
 
-    @Value("${stripe.apiKey}")
+    @Value("sk_test_51MfqdlGre5IWbhAc8crtVV3tzR0IL1WnvjAVmePNz8YtUmq1pKDlz4ITEq0kc07Dpo6ynYA1J5iZ37QfnjOdAo8B00FVN0TQmi")
     private String apiKey;
 
     public void chargeCreditCard(String token, Double amount, String currency) throws StripeException {
