@@ -4,30 +4,108 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82613782-6a4f-4458-bd8c-49a383e93a4a" name="Changes" comment="f-">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/SendGridEmailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/OrderController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Order.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/OrderRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/OrderService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/create-customer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/customer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/fragments/header.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/fragments/navigation.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/home.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/layout/layout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/success.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/templates/update-customer.html" afterDir="false" />
+    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="f-">
+      <change afterPath="$PROJECT_DIR$/availability-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/config/SprigDocConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/config/WebClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/AvailabilityRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/BookingRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/Room.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/model/RoomAvailability.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/repository/RoomAvailabilityRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/service/RoomAvailabilityService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/BookingServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/BookingConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/WebClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/booking-service/src/test/java/com/pi/bookingservice/BookingServiceApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/RoomServiceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/config/SprigDocConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/config/WebClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/controller/DormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/controller/RoomController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/DormRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/DormResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomAndDormRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomAvailability.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/Dorm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/Room.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/RoomType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/repository/DormRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/repository/RoomRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/DormService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/RoomService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/room-service/src/test/java/com/pi/roomservice/RoomServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forum/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/forum/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forum/src/main/java/com/pidev/esprit/ForumApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/forum/src/main/java/com/pidev/esprit/ForumApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forum/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/forum/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forum/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/forum/src/main/resources/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foyer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/room-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foyer/src/main/java/com/pidev/esprit/FoyerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/AvailabilityServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foyer/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/availability-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foyer/src/main/resources/banner.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/com/pidev/esprit/ApiGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/com/pidev/esprit/ApiGateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintanance/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/MaintenanceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/MaintenanceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/SpringDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/SpringDocConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/WebClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintanance/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintanance/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/resources/banner.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/paiement/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/config/WebClientConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/PaiementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/PaiementApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/paiement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/resources/banner.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/paiement/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/resources/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/SpringDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/SpringDocConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/WebClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Category.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurant/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/resources/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/pidev/esprit/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/pidev/esprit/ServerApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/banner.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/banner.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,22 +148,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8 (2)&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/slimd/OneDrive/Bureau/pi/EspritGroupe/booking-service&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;4c9032bfc4dac3e8be913383b17e6e22&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "1.8 (2)",
+    "last_opened_file_path": "C:/Users/slimd/OneDrive/Bureau/pi/EspritGroupe/booking-service",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "2d04e236a9b095942f2cd2e73ab5b9fd"
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -151,13 +229,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MaintenanceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="maintanance" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.MaintenanceApplication" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="PaiementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="paiement" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.PaiementApplication" />
@@ -212,7 +283,6 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Spring Boot.MaintenanceApplication" />
       <item itemvalue="Spring Boot.AvailabilityServiceApplication" />
       <item itemvalue="Spring Boot.ForumApplication" />
       <item itemvalue="Spring Boot.PaiementApplication" />
@@ -225,9 +295,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.ServerApplication" />
         <item itemvalue="Spring Boot.BookingServiceApplication" />
         <item itemvalue="Spring Boot.ApiGateway" />
+        <item itemvalue="Spring Boot.ServerApplication" />
         <item itemvalue="Spring Boot.UserApplication" />
         <item itemvalue="Spring Boot.RestaurantApplication" />
       </list>
@@ -236,7 +306,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="82613782-6a4f-4458-bd8c-49a383e93a4a" name="Changes" comment="f-" />
+      <changelist id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="" />
       <created>1676539800941</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -254,8 +324,6 @@
       <workItem from="1677070038217" duration="23990000" />
       <workItem from="1677143624044" duration="3918000" />
       <workItem from="1677421863999" duration="2697000" />
-      <workItem from="1677658123272" duration="642000" />
-      <workItem from="1677683863016" duration="1009000" />
     </task>
     <task id="LOCAL-00001" summary="second commit">
       <created>1676914070431</created>

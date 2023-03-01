@@ -4,25 +4,19 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
-public class MenuPreferences implements Serializable {
+public class Repas implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    @Temporal(TemporalType.DATE)
-    Date dateDcreation;
-
-
-
+    String name;
+    @Enumerated(EnumType.STRING)
+    Type type;
 
 
 }
