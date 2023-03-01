@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/layout">
+    <head>
+
+    </head>
+    <body>
+        <div class="container my-5" layout:fragment="content">
+		 
+               
+            <h2 class="mb-5">Update Customer</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="#" th:action="@{/addCustomer}" th:object="${customerData}" method="post">
+                       <div class="row">
+                            <div class="form-group col-md-6">
+                               <input type="text" th:field="*{customerId}" class="form-control" id="customerId" placeholder="customerId" disabled>
+                        
+                            </div>
+                            </div>
+                       
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="name" class="col-form-label">Name</label>
+                                <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="email" class="col-form-label">Email</label>
+                                <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mt-5">
+                                <input type="submit" class="btn btn-primary" value="Add Customer">
+                            </div>
+                        </div>    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

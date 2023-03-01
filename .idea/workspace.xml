@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="f-">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" afterDir="false" />
-    </list>
+    <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="f-" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +62,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;95a1938cd4e8095c21d5a5c9ceff137f&quot;
+    &quot;spring.configuration.checksum&quot;: &quot;2d04e236a9b095942f2cd2e73ab5b9fd&quot;
   }
 }</component>
   <component name="ReactorSettings">
@@ -238,8 +234,6 @@
       <workItem from="1677143624044" duration="3918000" />
       <workItem from="1677421863999" duration="2697000" />
       <workItem from="1677444406905" duration="638000" />
-      <workItem from="1677632208504" duration="4613000" />
-      <workItem from="1677687206763" duration="1983000" />
     </task>
     <task id="LOCAL-00001" summary="second commit">
       <created>1676914070431</created>
@@ -255,14 +249,7 @@
       <option name="project" value="LOCAL" />
       <updated>1677147273687</updated>
     </task>
-    <task id="LOCAL-00003" summary="f-">
-      <created>1677606764129</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1677606764129</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

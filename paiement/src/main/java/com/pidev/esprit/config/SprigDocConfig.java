@@ -15,13 +15,10 @@ public class SprigDocConfig {
     }
 
     public Info infoAPI() {
-        return new Info().title("Bookings Microservice").description("-------------").version("1.0").contact(contactAPI());
+        return new Info().title("Payment Microservice").description("-------------").version("1.0");
     }
 
-    public Contact contactAPI() {
-        Contact contact = new Contact().name("Slim").email("*************@esprit.tn").url("https://www.linkedin.com/in/**********/");
-        return contact;
-    }
+
     @Bean
     public GroupedOpenApi productPublicApi() {
         return GroupedOpenApi.builder()
