@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
+import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -68,17 +70,25 @@ public class MenuService {
     }
     @Scheduled(fixedRate = 20000)
     public void GenererMenu() {
-        List<Menu> menus = menuRepository.findAll();
-        for (int i = 0; i < 12; i++) {
+        ArrayList<Menu>menus = (ArrayList<Menu>) menuRepository.findAll();
+        ArrayList<Menu>MenuDeSemaine = new ArrayList<Menu>();
+        int r =menus.size();
+        for(int i =0;i<r ;i++){
             Random random = new Random();
             int RI = random.nextInt(menus.size());
-           Menu m = menus.get(i);
-           log.info(m.getName());
+            Menu m =menus.get(RI);
+            log.info(m.getName());
+            menus.remove(RI);
+            MenuDeSemaine.add(m);
+
+
+        }
+
 
 
     }
 
 
-}
+
 
 }
