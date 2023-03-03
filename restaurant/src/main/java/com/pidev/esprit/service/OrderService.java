@@ -1,8 +1,10 @@
 package com.pidev.esprit.service;
 
 import com.pidev.esprit.config.WebClientConfig;
+import com.pidev.esprit.model.Capacity;
 import com.pidev.esprit.model.Menu;
 import com.pidev.esprit.model.Order;
+import com.pidev.esprit.repository.CapacityRepository;
 import com.pidev.esprit.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,15 +36,36 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private CapacityRepository capacityRepository;
 
 
     public Order saveOrder(Order order, String token, Double amount, String currency) {
+
+        Capacity capacity = capacityRepository.findById(1L).get();
+
+        if(capacity.getValue()==0){
+            throw new RuntimeException("Cpacity is full");
+
+
+        }else {
         try {
+            int c=capacity.getValue();
             chargeCreditCard(token, amount, currency);
+           c-=1;
+           capacity.setValue(c);
+
+           capacityRepository.save(capacity);
+
             return orderRepository.save(order);
+
+
+
         } catch (Exception e) {
             throw new RuntimeException("Error processing payment and saving order: " + e.getMessage());
         }
+    }
+
     }
     private void chargeCreditCard(String token, Double amount, String currency) {
         String url = paymentServiceUrl + "/api/payment/charge?token={token}&amount={amount}&currency={currency}";

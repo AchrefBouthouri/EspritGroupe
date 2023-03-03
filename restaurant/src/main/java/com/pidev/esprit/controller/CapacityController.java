@@ -29,9 +29,9 @@ public class CapacityController {
 
 
     @PostMapping("/")
-    public ResponseEntity<Capacity> createCapacity(@RequestParam int value) {
-        Capacity capacity = capacityService.addCapacity(value);
-        return new ResponseEntity<>(capacity, HttpStatus.CREATED);
+    public Capacity createCapacity(@RequestBody Capacity capacity) {
+        capacityService.addCapacity(capacity);
+        return capacity;
     }
 
     @DeleteMapping("/{id}")

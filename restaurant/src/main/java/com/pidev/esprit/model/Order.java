@@ -21,6 +21,7 @@ public class Order {
     private Long id;
     private String orderNumber;
 
+
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;

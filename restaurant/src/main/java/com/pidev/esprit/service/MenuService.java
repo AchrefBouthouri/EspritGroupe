@@ -64,6 +64,13 @@ public class MenuService {
         return menuRepository.save(existingMenu);*/
 
     }
+    public Double getMenuPriceByName(String menuName) {
+        Menu menu = menuRepository.findByName(menuName);
+        if (menu == null) {
+            throw new RuntimeException("Menu not found");
+        }
+        return menu.getPrice();
+    }
 
     public void deleteMenu(String name) {
         menuRepository.deleteByName(name);
