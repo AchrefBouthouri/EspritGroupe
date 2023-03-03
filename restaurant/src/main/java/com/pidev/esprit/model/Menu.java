@@ -21,7 +21,7 @@ public class Menu implements Serializable {
     private Long id;
     private String name;
     private String description;
-    private BigDecimal price;
+    private Double price;
     private Boolean available;
     @Enumerated(EnumType.STRING)
     private Category category;
