@@ -22,7 +22,7 @@ public class CapacityService {
 
     public Capacity addCapacity(Capacity capacity) {
         if (capacityRepository.findAll()!=null){
-            throw new RuntimeException("Cpaciter deja existe");
+            throw new RuntimeException("capacity already exists");
         }else {
         capacityRepository.save(capacity);
         return capacity;}
@@ -38,14 +38,14 @@ public class CapacityService {
     public void deleteCapacityById(Long id) {
         capacityRepository.deleteById(id);
     }
-    @Scheduled(fixedRate = 60000)
+   /* @Scheduled(fixedRate = 60000)
     public void SetCpacite(){
         Capacity capacity = capacityRepository.findById(1L).get();
         capacity.setValue(100);
         capacityRepository.save(capacity);
         log.info("Saye");
 
-    }
+    } */
 
 
 

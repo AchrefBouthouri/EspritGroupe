@@ -67,6 +67,16 @@ public class OrderService {
     }
 
     }
+
+    public void deleteOrder(Order order) {
+        orderRepository.delete(order);
+        Capacity capacity = capacityRepository.findById(1L).get();
+        int c=capacity.getValue();
+        c+=1;
+        capacity.setValue(c);
+        capacityRepository.save(capacity);
+
+    }
     private void chargeCreditCard(String token, Double amount, String currency) {
         String url = paymentServiceUrl + "/api/payment/charge?token={token}&amount={amount}&currency={currency}";
 
@@ -82,6 +92,8 @@ public class OrderService {
         }
     }
 
+
+
     public List<Order> getOrdersByMenuName(String menuName) {
         return orderRepository.findByMenuName(menuName);
     }
@@ -89,9 +101,7 @@ public class OrderService {
     public Optional<Order> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
-    public void deleteOrder(Order order) {
-        orderRepository.delete(order);
-    }
+
 
 
 
