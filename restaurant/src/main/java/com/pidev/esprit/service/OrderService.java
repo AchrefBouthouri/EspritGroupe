@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -45,7 +46,7 @@ public class OrderService {
         Capacity capacity = capacityRepository.findById(1L).get();
 
         if(capacity.getValue()==0){
-            throw new RuntimeException("Cpacity is full");
+            throw new RuntimeException("Capacity is full");
 
 
         }else {
@@ -57,11 +58,10 @@ public class OrderService {
 
            capacityRepository.save(capacity);
 
-            return orderRepository.save(order);
+           return orderRepository.save(order);
 
-
-
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException("Error processing payment and saving order: " + e.getMessage());
         }
     }
@@ -92,8 +92,6 @@ public class OrderService {
         }
     }
 
-
-
     public List<Order> getOrdersByMenuName(String menuName) {
         return orderRepository.findByMenuName(menuName);
     }
@@ -102,11 +100,15 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-
-
-
     public List<Order> getAll() {
         return orderRepository.findAll();
+    }
+
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void deleteAllOrders() {
+        log.info("Deleting all orders from the database");
+        orderRepository.deleteAll();
     }
 
 
