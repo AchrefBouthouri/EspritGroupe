@@ -23,5 +23,6 @@ public class Booking {
     private LocalDate endDate;
     private String userEmail;
     private Double TotalPrice;
-
+    private boolean Paid;
+    private boolean autoRenewed;
 }

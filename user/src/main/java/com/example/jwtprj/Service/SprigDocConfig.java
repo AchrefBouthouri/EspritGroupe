@@ -1,4 +1,4 @@
-package com.pidev.esprit.config;
+package com.example.jwtprj.Service;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -15,11 +15,11 @@ public class SprigDocConfig {
     }
 
     public Info infoAPI() {
-        return new Info().title("Payment Microservice").description("-------------").version("1.0").contact(contactAPI());
+        return new Info().title("Foyer/Room Microservice").description("-------------").version("1.0").contact(contactAPI());
     }
 
     public Contact contactAPI() {
-        Contact contact = new Contact().name("Slim").email("*************@esprit.tn").url("https://www.linkedin.com/in/**********/");
+        Contact contact = new Contact().name("Slim Derouiche").email("*************@esprit.tn").url("https://www.linkedin.com/in/**********/");
         return contact;
     }
     @Bean

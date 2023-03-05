@@ -3,14 +3,10 @@ package com.pidev.esprit.service;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.PaymentIntentConfirmParams;
-import com.stripe.param.PaymentIntentCreateParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +14,7 @@ import java.util.Map;
 @Service
 public class StripeService {
 
-    @Value("sk_test_51MfqdlGre5IWbhAc8crtVV3tzR0IL1WnvjAVmePNz8YtUmq1pKDlz4ITEq0kc07Dpo6ynYA1J5iZ37QfnjOdAo8B00FVN0TQmi")
+    @Value("stripe.publicKey")
     private String apiKey;
 
     public void chargeCreditCard(String token, Double amount, String currency) throws StripeException {
@@ -33,4 +29,22 @@ public class StripeService {
 
         Charge charge = Charge.create(params);
     }
+//public void chargeCreditCard(String cardNumber, Integer expMonth, Integer expYear, String cvc, Double amount, String currency) throws StripeException {
+//
+//    Stripe.apiKey = apiKey;
+//
+//    Map<String, Object> card = new HashMap<>();
+//    card.put("number", cardNumber);
+//    card.put("exp_month", expMonth);
+//    card.put("exp_year", expYear);
+//    card.put("cvc", cvc);
+//
+//    Map<String, Object> params = new HashMap<>();
+//    params.put("amount", Math.round(amount * 100));
+//    params.put("currency", currency);
+//    params.put("source", card);
+//    params.put("description", "Payment for order 123");
+//
+//    Charge charge = Charge.create(params);
+//}
 }

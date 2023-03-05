@@ -39,12 +39,10 @@ public class RoomService {
 
     public Room createRoomInDorm(String name, RoomRequest roomRequest) {
         Dorm dorm = dormRepository.findByName(name);
-
         if (dorm == null) {
             log.error("Dorm with name {} not found", name);
             return null;
         }
-
         Room room = Room.builder()
                 .roomNumber(roomRequest.getRoomNumber())
                 .roomType(roomRequest.getRoomType())
@@ -52,16 +50,13 @@ public class RoomService {
                 .surface(roomRequest.getSurface())
                 .price(roomRequest.getPrice())
                 .build();
-
         dorm.getRooms().add(room);
-
         dormRepository.save(dorm);
-
         log.info("Room {} is saved in dorm {}", room.getRoomNumber(), dorm.getName());
 
         return room;
     }
-
+    //@PreAuthorize("hasAuthority('USER')")
     public Room createRoom(RoomRequest roomRequest) {
         Room room = Room.builder()
                 .roomNumber(roomRequest.getRoomNumber())
