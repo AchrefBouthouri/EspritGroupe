@@ -34,4 +34,19 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing payment: " + e.getMessage());
         }
     }
+//@PostMapping("/charge")
+//public ResponseEntity<String> chargeCard(@RequestParam("cardNumber") String cardNumber,
+//                                         @RequestParam("expMonth") Integer expMonth,
+//                                         @RequestParam("expYear") Integer expYear,
+//                                         @RequestParam("cvc") String cvc,
+//                                         @RequestParam("amount") Double amount,
+//                                         @RequestParam("currency") String currency) {
+//
+//    try {
+//        stripeService.chargeCreditCard(cardNumber, expMonth, expYear, cvc, amount, currency);
+//        return ResponseEntity.ok("Payment processed successfully!");
+//    } catch (StripeException e) {
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing payment: " + e.getMessage());
+//    }
+//}
 }

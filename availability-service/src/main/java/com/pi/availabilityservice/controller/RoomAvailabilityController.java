@@ -25,11 +25,6 @@ public class RoomAvailabilityController {
 
     @Autowired
     private RoomAvailabilityService roomAvailabilityService;
-//
-//    @GetMapping("/check")
-//    public boolean checkRoomAvailability(@RequestParam String roomId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-//        return roomAvailabilityService.checkRoomAvailability(roomId, startDate, endDate);
-//    }
 @GetMapping("/check")
 public boolean checkRoomAvailability(@RequestParam String roomId,
                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
