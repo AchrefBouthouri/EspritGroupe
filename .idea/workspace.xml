@@ -4,62 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="f-">
-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/MailConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/dto/Statistics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/JwtprjApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/WebClientConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/securityConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/api/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/domain/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/filter/customAuthFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/filter/customAuthoriszationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/repo/RoleRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/repo/UserRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/availability-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/availability-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/RoomService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/domain/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="user" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2Mb5FWdsBP6wKEmEL2BcysnqYz2" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -193,8 +156,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678023342920</updated>
-      <workItem from="1678023345965" duration="299000" />
+      <workItem from="1678023345965" duration="642000" />
     </task>
+    <task id="LOCAL-00001" summary="user">
+      <created>1678023915769</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678023915769</updated>
+    </task>
+    <task id="LOCAL-00002" summary="user">
+      <created>1678023971663</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1678023971663</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,5 +188,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="f-" />
+    <MESSAGE value="user" />
+    <option name="LAST_COMMIT_MESSAGE" value="user" />
   </component>
 </project>
