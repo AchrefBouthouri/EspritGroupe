@@ -12,9 +12,15 @@ import java.util.Collection;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private  Long id;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
     private String username;
     private String password;
+
+    private Boolean enabled = false;
+    private String verificationCode;
+    private String PasswordToken;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 }
