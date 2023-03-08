@@ -58,18 +58,16 @@ public class BookingService {
         } catch (Exception e) {
             throw new RuntimeException("Payment error");
         }
-        // Update room date
-        updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
-        //  email
-       // emailService.sendBookingConfirmationEmail2(booking);
         String pdfFilePath = "booking_qrcode.pdf";
         try {
             qrCodeGenerator.generatePdfQrCode(booking);
-            emailService.ConfirmationEmail3(booking, pdfFilePath);
+            emailService.confirmationEmail3(booking, pdfFilePath);
         } catch (DocumentException | IOException | MessagingException e) {
             e.printStackTrace();
         }
         Booking savedBooking = bookingRepository.save(booking);
+        // Update room date
+        updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
         log.info("Booking : {}", savedBooking);
         return savedBooking;
     }
@@ -108,7 +106,7 @@ public class BookingService {
 
     public void deleteBooking(long bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking with id " + bookingId + " not found"));
+                .orElseThrow(() -> new RuntimeException(" not found"));
         bookingRepository.delete(booking);
         updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
         emailService.cancellationEmail(booking);
@@ -153,7 +151,9 @@ public class BookingService {
         }
     }
 
-
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
+    }
 
     private List<Booking> scheduel() {
         LocalDate currentDate = LocalDate.now();
@@ -161,8 +161,8 @@ public class BookingService {
         return bookingRepository.findByEndDateBetween(currentDate, oneWeekFromNow);
     }
 
-   // @Scheduled(fixedRate = 30000)
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(fixedRate = 300000)
+    //@Scheduled(cron = "0 0 0 * * *")
     public void NotificationEmail() {
         List<Booking> bookingsEndingInOneWeek = scheduel();
         for (Booking booking : bookingsEndingInOneWeek) {
@@ -190,8 +190,8 @@ public class BookingService {
                 .sum();
         return new Statistics(numBookings, totalRevenue);
     }
-    //@Scheduled(fixedRate = 20000)
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(fixedRate = 300000)
+   // @Scheduled(cron = "0 0 0 * * *")
     public void deleteExpiredBookings() {
         LocalDate yesterday = LocalDate.now().minusDays(1);
         List<Booking> expiredBookings = bookingRepository.findByEndDateBefore(yesterday);
@@ -202,8 +202,8 @@ public class BookingService {
     }
 
 
-   // @Scheduled(fixedRate = 50000)
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(fixedRate = 300000)
+    //@Scheduled(cron = "0 0 0 * * *")
     public void checkAutoRenewalBookings() {
         LocalDate today = LocalDate.now();
         List<Booking> autoRenewalBookings = bookingRepository.findByAutoRenewed(true);
@@ -214,7 +214,7 @@ public class BookingService {
                 booking.setEndDate(newExpiryDate);
                 booking.setTotalPrice(calculateTotalPrice(booking.getRoomId(), booking.getStartDate(), newExpiryDate));
                 bookingRepository.save(booking);
-                emailService.RenouvEmail(booking);
+                emailService.renouvEmail(booking);
             } else if (expiryDate.minusDays(1).isEqual(today)) {
                 emailService.renouvReminderEmail(booking);
             }

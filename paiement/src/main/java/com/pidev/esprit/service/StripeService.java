@@ -14,7 +14,7 @@ import java.util.Map;
 @Service
 public class StripeService {
 
-    @Value("stripe.publicKey")
+    @Value("sk_test_51MgEnVJLaSjV8kIt3mFd1e1BPC9sB8KeIoOIgaMSEKi37gsm84t8nAVTURKFskqHLL2r1jP0JH3HWgFzdRpIuQjj00pAb5yKIb")
     private String apiKey;
 
     public void chargeCreditCard(String token, Double amount, String currency) throws StripeException {
@@ -29,22 +29,4 @@ public class StripeService {
 
         Charge charge = Charge.create(params);
     }
-//public void chargeCreditCard(String cardNumber, Integer expMonth, Integer expYear, String cvc, Double amount, String currency) throws StripeException {
-//
-//    Stripe.apiKey = apiKey;
-//
-//    Map<String, Object> card = new HashMap<>();
-//    card.put("number", cardNumber);
-//    card.put("exp_month", expMonth);
-//    card.put("exp_year", expYear);
-//    card.put("cvc", cvc);
-//
-//    Map<String, Object> params = new HashMap<>();
-//    params.put("amount", Math.round(amount * 100));
-//    params.put("currency", currency);
-//    params.put("source", card);
-//    params.put("description", "Payment for order 123");
-//
-//    Charge charge = Charge.create(params);
-//}
 }

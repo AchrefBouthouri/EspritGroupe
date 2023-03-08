@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -45,7 +46,10 @@ public class BookingController {
                                  @RequestParam String currency) {
         return bookingService.extendBooking(bookingId, newEndDate, token, amount, currency);
     }
-
+    @GetMapping
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
+    }
     @DeleteMapping("/{bookingId}")
     public void deleteBooking(@PathVariable long bookingId) {
         bookingService.deleteBooking(bookingId);

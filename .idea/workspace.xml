@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="user" />
+    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="user">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/booking_qrcode.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/booking_qrcode.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/securityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/securityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/api/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/api/UserController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,21 +45,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "spring.configuration.checksum": "e6205d418a1a6842ff4b941410707748"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;e6205d418a1a6842ff4b941410707748&quot;
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -84,19 +99,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="JwtprjApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="user" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.jwtprj.JwtprjApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.jwtprj.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="PaiementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="paiement" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.PaiementApplication" />
@@ -117,6 +119,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="RoomServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="room-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pi.roomservice.RoomServiceApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.pi.roomservice.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="server" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.ServerApplication" />
@@ -132,19 +147,19 @@
     </configuration>
     <list>
       <item itemvalue="Spring Boot.RestaurantApplication" />
-      <item itemvalue="Spring Boot.AvailabilityServiceApplication" />
       <item itemvalue="Spring Boot.BookingServiceApplication" />
-      <item itemvalue="Spring Boot.JwtprjApplication" />
-      <item itemvalue="Spring Boot.PaiementApplication" />
       <item itemvalue="Spring Boot.ServerApplication" />
+      <item itemvalue="Spring Boot.PaiementApplication" />
+      <item itemvalue="Spring Boot.AvailabilityServiceApplication" />
+      <item itemvalue="Spring Boot.RoomServiceApplication" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.BookingServiceApplication" />
-        <item itemvalue="Spring Boot.JwtprjApplication" />
-        <item itemvalue="Spring Boot.ServerApplication" />
-        <item itemvalue="Spring Boot.PaiementApplication" />
         <item itemvalue="Spring Boot.AvailabilityServiceApplication" />
+        <item itemvalue="Spring Boot.PaiementApplication" />
+        <item itemvalue="Spring Boot.RoomServiceApplication" />
+        <item itemvalue="Spring Boot.ServerApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -156,7 +171,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678023342920</updated>
-      <workItem from="1678023345965" duration="642000" />
+      <workItem from="1678023345965" duration="4577000" />
+      <workItem from="1678045032783" duration="492000" />
+      <workItem from="1678097758991" duration="10133000" />
+      <workItem from="1678195136431" duration="313000" />
+      <workItem from="1678225235896" duration="3972000" />
     </task>
     <task id="LOCAL-00001" summary="user">
       <created>1678023915769</created>
@@ -172,7 +191,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678023971663</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="user">
+      <created>1678024015699</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1678024015699</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
