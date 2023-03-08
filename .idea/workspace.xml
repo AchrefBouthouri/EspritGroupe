@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="f-">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_5_2023_2_22_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_5_2023_2_22_PM__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/room-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/room-service/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="s2" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -123,7 +115,30 @@
     </recent_temporary>
   </component>
   <component name="TaskManager">
+    <task id="LOCAL-00001" summary="s2">
+      <created>1678281620587</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678281620587</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="s2" />
+    <option name="LAST_COMMIT_MESSAGE" value="s2" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

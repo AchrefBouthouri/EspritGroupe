@@ -47,7 +47,7 @@ public class BookingController {
     public Booking extendBooking(@PathVariable long bookingId,
                                  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") @Future(message = "date in the future") LocalDate newEndDate,
                                  @RequestParam @NotBlank(message = "payment required") String token,
-                                 @RequestParam @Positive(message = "random")Double amount,
+                                 @RequestParam @Positive(message = "random > 0")Double amount,
                                  @RequestParam  @NotBlank(message = "put usd") String currency) {
         return bookingService.extendBooking(bookingId, newEndDate, token,amount, currency);
     }
