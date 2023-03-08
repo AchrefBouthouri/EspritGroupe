@@ -5,24 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="user">
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/dto/UsersDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/dto/configMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/exception/FileStorageException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/exception/MyFileNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/exception/OptionNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/exception/ResourceNotFoundException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_5_2023_2_22_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_5_2023_2_22_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/JwtprjApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/JwtprjApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/securityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/securityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/api/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/api/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/domain/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/repo/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/repo/UserRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +55,7 @@
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
@@ -238,7 +222,7 @@
       <workItem from="1678123026415" duration="25436000" />
       <workItem from="1678282586081" duration="623000" />
       <workItem from="1678283265850" duration="1749000" />
-      <workItem from="1678285047191" duration="4859000" />
+      <workItem from="1678285047191" duration="8014000" />
     </task>
     <task id="LOCAL-00001" summary="user">
       <created>1678023915769</created>
