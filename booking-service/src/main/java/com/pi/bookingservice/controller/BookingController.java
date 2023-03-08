@@ -7,11 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.constraints.*;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
@@ -76,11 +76,17 @@ public class BookingController {
         return ResponseEntity.ok("Email sent successfully!");
     }
     @GetMapping("/statistics")
-    public Statistics getStatistics(@RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                    @RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        return bookingService.getStatistics(startDate, endDate);
-    }
+    public ResponseEntity<Statistics> getStatistics(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
+        try {
+            Statistics statistics = bookingService.getStatistics(startDate, endDate);
+            return new ResponseEntity<>(statistics, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
 

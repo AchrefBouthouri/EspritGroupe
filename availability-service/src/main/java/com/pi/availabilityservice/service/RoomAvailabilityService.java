@@ -6,15 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
-
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +36,6 @@ public boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDa
 
         for (RoomAvailability roomAvailability : roomAvailabilities) {
             if (startDate.isBefore(roomAvailability.getEndDate()) && endDate.isAfter(roomAvailability.getStartDate())) {
-                // date exicte
 
                 if (startDate.isAfter(roomAvailability.getStartDate())) {
                     updatedRoomAvailabilities.add(RoomAvailability.builder()
@@ -57,7 +52,6 @@ public boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDa
                             .build());
                 }
             } else {
-                // date disponible
                 updatedRoomAvailabilities.add(roomAvailability);
             }
         }

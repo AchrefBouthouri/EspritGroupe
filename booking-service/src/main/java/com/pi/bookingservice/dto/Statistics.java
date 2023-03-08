@@ -2,6 +2,8 @@ package com.pi.bookingservice.dto;
 
 import lombok.*;
 
+import java.util.Map;
+
 @Data
 @Getter
 @Setter
@@ -10,4 +12,8 @@ import lombok.*;
 public class Statistics  {
     private Long numBookings;
     private Double totalRevenue;
+    private Double avgRevenuePerBooking;
+    private Map<String, Long> numBookingsPerRoom;
+    private Map<String, Long> numBookingsPerUser;
+
 }

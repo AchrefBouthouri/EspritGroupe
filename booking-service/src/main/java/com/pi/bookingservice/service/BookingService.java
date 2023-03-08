@@ -15,8 +15,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import javax.validation.constraints.*;
-import org.springframework.validation.annotation.Validated;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -24,12 +22,12 @@ import java.time.LocalDate;
 
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-@Validated
 @EnableScheduling
 public class BookingService {
     @Autowired
@@ -54,7 +52,6 @@ public class BookingService {
         int numNights = (int) ChronoUnit.DAYS.between(booking.getStartDate(), booking.getEndDate());
         Double totalPrice = room.getPrice() * numNights;
         booking.setTotalPrice(totalPrice);
-        //  payment
         try {
             chargeCreditCard(token, totalPrice, currency);
         } catch (Exception e) {
@@ -68,7 +65,7 @@ public class BookingService {
             e.printStackTrace();
         }
         Booking savedBooking = bookingRepository.save(booking);
-        // Update room date
+
         updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
         log.info("Booking : {}", savedBooking);
         return savedBooking;
@@ -140,7 +137,6 @@ public class BookingService {
 
     private void chargeCreditCard(String token, Double amount, String currency) {
         String url = paymentServiceUrl + "/api/payment/charge?token={token}&amount={amount}&currency={currency}";
-
         try {
             webClientBuilder.build()
                     .post()
@@ -190,7 +186,12 @@ public class BookingService {
         Double totalRevenue = bookings.stream()
                 .mapToDouble(Booking::getTotalPrice)
                 .sum();
-        return new Statistics(numBookings, totalRevenue);
+        Double avgRevenuePerBooking = numBookings > 0 ? totalRevenue / numBookings : 0;
+        Map<String, Long> numBookingsPerRoom = bookings.stream()
+                .collect(Collectors.groupingBy(Booking::getRoomId, Collectors.counting()));
+        Map<String, Long> numBookingsPerUser = bookings.stream()
+                .collect(Collectors.groupingBy(Booking::getUserEmail, Collectors.counting()));
+        return new Statistics(numBookings, totalRevenue, avgRevenuePerBooking, numBookingsPerRoom, numBookingsPerUser);
     }
     @Scheduled(fixedRate = 300000)
    // @Scheduled(cron = "0 0 0 * * *")
