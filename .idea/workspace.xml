@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="user">
+    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="b">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking_qrcode.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/booking_qrcode.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/securityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/securityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java" afterDir="false" />
@@ -45,23 +38,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;e6205d418a1a6842ff4b941410707748&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "spring.configuration.checksum": "e6205d418a1a6842ff4b941410707748"
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -176,6 +170,7 @@
       <workItem from="1678097758991" duration="10133000" />
       <workItem from="1678195136431" duration="313000" />
       <workItem from="1678225235896" duration="3972000" />
+      <workItem from="1678273483813" duration="2708000" />
     </task>
     <task id="LOCAL-00001" summary="user">
       <created>1678023915769</created>
@@ -198,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678024015699</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="b">
+      <created>1678273595576</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678273595576</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,10 +216,26 @@
         </entry>
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/Forum-Amine" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="f-" />
     <MESSAGE value="user" />
-    <option name="LAST_COMMIT_MESSAGE" value="user" />
+    <MESSAGE value="b" />
+    <option name="LAST_COMMIT_MESSAGE" value="b" />
   </component>
 </project>
