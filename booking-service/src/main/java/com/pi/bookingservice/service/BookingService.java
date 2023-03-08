@@ -15,7 +15,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
+import javax.validation.constraints.*;
+import org.springframework.validation.annotation.Validated;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
+@Validated
 @EnableScheduling
 public class BookingService {
     @Autowired
@@ -83,7 +85,7 @@ public class BookingService {
         return isAvailable;
     }
 
-    public Booking extendBooking(long bookingId, LocalDate newEndDate, String token, Double amount, String currency) {
+    public Booking extendBooking(long bookingId, LocalDate newEndDate, String token,Double amount, String currency) {
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
         Room room = getRoomById(booking.getRoomId());
         int numNights = (int) ChronoUnit.DAYS.between(booking.getEndDate(), newEndDate);
