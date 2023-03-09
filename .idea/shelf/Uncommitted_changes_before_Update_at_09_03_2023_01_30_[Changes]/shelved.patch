@@ -1,0 +1,216 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"49379f91-695b-46d0-adec-a8ba77d96f9e\" name=\"Changes\" comment=\"f-\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision bf9131f2706355abaebbc54a962b37cd75577035)
++++ b/.idea/workspace.xml	(date 1678320895223)
+@@ -4,21 +4,202 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="f-">
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
++    <list default="true" id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="Menu">
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuDeSemaineController.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/MenuDejour.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/MenuDesemaine.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Rien.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuDeJourRepository.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuDeSemaineRepository.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/RienRepository.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuDeJourService.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuDeSemaineService.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/restaurant/src/main/resources/Menu.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+     <option name="LAST_RESOLUTION" value="IGNORE" />
++  </component>
++  <component name="FileTemplateManagerImpl">
++    <option name="RECENT_TEMPLATES">
++      <list>
++        <option value="Interface" />
++        <option value="Class" />
++      </list>
++    </option>
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
++  <component name="JpbToolWindowState">
++    <option name="isToolWindowVisible" value="false" />
++  </component>
++  <component name="MarkdownSettingsMigration">
++    <option name="stateVersion" value="1" />
++  </component>
++  <component name="ProjectId" id="2Me7ofE4639TrvHhubyVQnWlmt7" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+     <ConfirmationsSetting value="2" id="Add" />
+   </component>
++  <component name="ProjectViewState">
++    <option name="hideEmptyMiddlePackages" value="true" />
++    <option name="showLibraryContents" value="true" />
++  </component>
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
++    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
++    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
++    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;show.run.dashboard.notification&quot;: &quot;false&quot;,
++    &quot;spring.configuration.checksum&quot;: &quot;95a1938cd4e8095c21d5a5c9ceff137f&quot;
++  }
++}</component>
++  <component name="RunManager" selected="Spring Boot.RestaurantApplication">
++    <configuration name="ApiGateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="gateway" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.ApiGateway" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="AvailabilityServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="availability-service" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pi.availabilityservice.AvailabilityServiceApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="BookingServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="booking-service" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pi.bookingservice.BookingServiceApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="ForumApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="forum" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.ForumApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="MaintenanceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="maintanance" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.MaintenanceApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="PaiementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="paiement" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.PaiementApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="RestaurantApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="restaurant" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.RestaurantApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="RoomServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="room-service" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pi.roomservice.RoomServiceApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="server" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.ServerApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="user" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.UserApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <list>
++      <item itemvalue="Spring Boot.MaintenanceApplication" />
++      <item itemvalue="Spring Boot.AvailabilityServiceApplication" />
++      <item itemvalue="Spring Boot.ForumApplication" />
++      <item itemvalue="Spring Boot.PaiementApplication" />
++      <item itemvalue="Spring Boot.RoomServiceApplication" />
++      <item itemvalue="Spring Boot.BookingServiceApplication" />
++      <item itemvalue="Spring Boot.ApiGateway" />
++      <item itemvalue="Spring Boot.UserApplication" />
++      <item itemvalue="Spring Boot.ServerApplication" />
++      <item itemvalue="Spring Boot.RestaurantApplication" />
++    </list>
++  </component>
++  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
++    <task id="LOCAL-00001" summary="Menu">
++      <created>1677853243538</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1677853243538</updated>
++    </task>
++    <task id="LOCAL-00002" summary="Menu">
++      <created>1677853298634</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1677853298634</updated>
++    </task>
++    <task id="LOCAL-00003" summary="Menu">
++      <created>1677860093480</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1677860093480</updated>
++    </task>
++    <task active="true" id="Default" summary="Default task">
++      <changelist id="49379f91-695b-46d0-adec-a8ba77d96f9e" name="Changes" comment="Menu" />
++      <created>1678116370758</created>
++      <option name="number" value="Default" />
++      <option name="presentableId" value="Default" />
++      <updated>1678116370758</updated>
++      <workItem from="1678116372145" duration="5843000" />
++      <workItem from="1678179961578" duration="1537000" />
++      <workItem from="1678274256065" duration="10941000" />
++      <workItem from="1678315229392" duration="5661000" />
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="Menu" />
++    <option name="LAST_COMMIT_MESSAGE" value="Menu" />
++  </component>
+ </project>
+\ No newline at end of file
