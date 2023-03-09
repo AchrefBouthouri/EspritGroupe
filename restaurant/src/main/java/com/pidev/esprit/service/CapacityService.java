@@ -27,7 +27,8 @@ public class    CapacityService {
             throw new RuntimeException("capacity already exists");
         }else {
         capacityRepository.save(capacity);
-        return capacity;}
+        return capacity;
+        }
     }
 
 
