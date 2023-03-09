@@ -23,8 +23,6 @@ public class Menu implements Serializable {
     private String description;
     private Double price;
     private Boolean available;
-    @Enumerated(EnumType.STRING)
-    private Category category;
     @OneToMany( cascade = CascadeType.REMOVE)
     List<MenuPreferences>menuPreferences;
     @OneToMany(cascade = CascadeType.REMOVE)

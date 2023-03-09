@@ -1,6 +1,8 @@
 package com.pidev.esprit.service;
 
 import com.pidev.esprit.model.Menu;
+import com.pidev.esprit.model.MenuDesemaine;
+import com.pidev.esprit.repository.MenuDeSemaineRepository;
 import com.pidev.esprit.repository.MenuRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class MenuService {
     @Autowired
 
     private MenuRepository menuRepository;
+    @Autowired
+    private MenuDeSemaineRepository menuDeSemaineRepository;
 
     public List<Menu> getAllMenus() {
         return menuRepository.findAll();
@@ -48,7 +52,6 @@ public class MenuService {
         M=menuRepository.findByName(name);
 
             M.setName(menu2.getName());
-            M.setCategory(menu2.getCategory());
             M.setAvailable(menu2.getAvailable());
             M.setDescription(menu2.getDescription());
             M.setPrice(menu2.getPrice());
@@ -75,10 +78,10 @@ public class MenuService {
     public void deleteMenu(String name) {
         menuRepository.deleteByName(name);
     }
-    @Scheduled(fixedRate = 20000)
+    @Scheduled(fixedRate = 20000000)
     public void GenererMenu() {
         ArrayList<Menu>menus = (ArrayList<Menu>) menuRepository.findAll();
-        ArrayList<Menu>MenuDeSemaine = new ArrayList<Menu>();
+        ArrayList<Menu>menuDeSemaine = new ArrayList<Menu>();
         int r =menus.size();
         for(int i =0;i<r ;i++){
             Random random = new Random();
@@ -86,10 +89,15 @@ public class MenuService {
             Menu m =menus.get(RI);
             log.info(m.getName());
             menus.remove(RI);
-            MenuDeSemaine.add(m);
-
+            menuDeSemaine.add(m);
 
         }
+        menuDeSemaineRepository.deleteAll();
+        MenuDesemaine md = new MenuDesemaine();
+        md.setMenuList(menuDeSemaine);
+        menuDeSemaineRepository.save(md);
+
+
 
 
 
