@@ -14,7 +14,7 @@ import java.util.List;
 @Service
  @Slf4j
 @EnableScheduling
-public class CapacityService {
+public class    CapacityService {
     @Autowired
     private CapacityRepository capacityRepository;
 
@@ -37,7 +37,9 @@ public class CapacityService {
     }
     @Scheduled(cron = "0 0 0 * * ?")
     public void SetCpacite(){
-        Capacity capacity = capacityRepository.findById(1L).get();
+        List<Capacity>capacities = (List<Capacity>) capacityRepository.findAll();
+        long id = capacities.get(0).getId();
+        Capacity capacity = capacityRepository.findById(id).get();
         capacity.setValue(100);
         capacityRepository.save(capacity);
         log.info("the capacity has been reset");

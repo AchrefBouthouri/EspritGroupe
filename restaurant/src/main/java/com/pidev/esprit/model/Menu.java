@@ -23,6 +23,7 @@ public class Menu implements Serializable {
     private String description;
     private Double price;
     private Boolean available;
+    private int calories;
     @Enumerated(EnumType.STRING)
     private Category category;
     @OneToMany( cascade = CascadeType.REMOVE)

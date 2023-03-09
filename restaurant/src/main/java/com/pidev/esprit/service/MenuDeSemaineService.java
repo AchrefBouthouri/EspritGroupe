@@ -1,5 +1,4 @@
 package com.pidev.esprit.service;
-
 import com.pidev.esprit.model.Menu;
 import com.pidev.esprit.model.MenuDesemaine;
 import com.pidev.esprit.model.Rien;
@@ -42,7 +41,7 @@ public class MenuDeSemaineService {
 
         }
         String data = s;
-        File file = new File("C:/Users/user/Desktop/Menu.txt"); // the path to the file
+        File file = new File("C:/Users/user/Desktop/Menu.txt");
         try {
             FileWriter writer = new FileWriter(file);
             writer.write(data);
