@@ -7,16 +7,22 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.validation.annotation.Validated;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
 @Slf4j
+@Validated
 @RequestMapping("/api/booking")
 public class BookingController {
     @Autowired
@@ -39,13 +45,16 @@ public class BookingController {
 
     @PostMapping("/{bookingId}/extend")
     public Booking extendBooking(@PathVariable long bookingId,
-                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate newEndDate,
-                                 @RequestParam String token,
-                                 @RequestParam Double amount,
-                                 @RequestParam String currency) {
-        return bookingService.extendBooking(bookingId, newEndDate, token, amount, currency);
+                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") @Future(message = "date in the future") LocalDate newEndDate,
+                                 @RequestParam @NotBlank(message = "payment required") String token,
+                                 @RequestParam @Positive(message = "random > 0")Double amount,
+                                 @RequestParam  @NotBlank(message = "put usd") String currency) {
+        return bookingService.extendBooking(bookingId, newEndDate, token,amount, currency);
     }
-
+    @GetMapping
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
+    }
     @DeleteMapping("/{bookingId}")
     public void deleteBooking(@PathVariable long bookingId) {
         bookingService.deleteBooking(bookingId);
@@ -67,11 +76,17 @@ public class BookingController {
         return ResponseEntity.ok("Email sent successfully!");
     }
     @GetMapping("/statistics")
-    public Statistics getStatistics(@RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                    @RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        return bookingService.getStatistics(startDate, endDate);
-    }
+    public ResponseEntity<Statistics> getStatistics(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
+        try {
+            Statistics statistics = bookingService.getStatistics(startDate, endDate);
+            return new ResponseEntity<>(statistics, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }
 
