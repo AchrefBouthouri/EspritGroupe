@@ -55,6 +55,7 @@ public class MenuService {
             M.setAvailable(menu2.getAvailable());
             M.setDescription(menu2.getDescription());
             M.setPrice(menu2.getPrice());
+            M.setCalories(menu2.getCalories());
             menuRepository.save(M);
             return M;
 

@@ -1,0 +1,2377 @@
+Index: booking-service/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <parent>\r\n        <artifactId>EspritGroupe</artifactId>\r\n        <groupId>com.pidev.esprit</groupId>\r\n        <version>1.0-SNAPSHOT</version>\r\n    </parent>\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <artifactId>booking-service</artifactId>\r\n\r\n    <properties>\r\n        <maven.compiler.source>19</maven.compiler.source>\r\n        <maven.compiler.target>19</maven.compiler.target>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n    </properties>\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-data-jpa</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-webflux</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.stripe</groupId>\r\n            <artifactId>stripe-java</artifactId>\r\n            <version>20.63.0</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springdoc</groupId>\r\n            <artifactId>springdoc-openapi-ui</artifactId>\r\n            <version>1.6.9</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.mysql</groupId>\r\n            <artifactId>mysql-connector-j</artifactId>\r\n            <scope>runtime</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.projectlombok</groupId>\r\n            <artifactId>lombok</artifactId>\r\n            <optional>true</optional>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-test</artifactId>\r\n            <scope>test</scope>\r\n        </dependency>\r\n    </dependencies>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/pom.xml b/booking-service/pom.xml
+--- a/booking-service/pom.xml	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/booking-service/pom.xml	(date 1678017870754)
+@@ -39,6 +39,15 @@
+             <version>20.63.0</version>
+         </dependency>
+         <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-mail</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>com.sun.mail</groupId>
++            <artifactId>javax.mail</artifactId>
++            <version>1.6.2</version>
++        </dependency>
++        <dependency>
+             <groupId>org.springdoc</groupId>
+             <artifactId>springdoc-openapi-ui</artifactId>
+             <version>1.6.9</version>
+@@ -57,6 +66,12 @@
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-test</artifactId>
+             <scope>test</scope>
++        </dependency>
++        <!-- iText -->
++        <dependency>
++            <groupId>com.itextpdf</groupId>
++            <artifactId>itextpdf</artifactId>
++            <version>5.5.13</version>
+         </dependency>
+     </dependencies>
+ </project>
+\ No newline at end of file
+Index: booking-service/src/main/java/com/pi/bookingservice/model/Booking.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pi.bookingservice.model;\r\n\r\nimport lombok.*;\r\n\r\nimport javax.persistence.*;\r\nimport java.time.LocalDate;\r\nimport java.util.Date;\r\nimport java.util.List;\r\n\r\n@Entity\r\n@Table(name = \"t_bookings\")\r\n@Getter\r\n@Setter\r\n@NoArgsConstructor\r\n@AllArgsConstructor\r\n@Builder\r\npublic class Booking {\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private long bookingId;\r\n    private String roomId;\r\n    private LocalDate startDate;\r\n    private LocalDate endDate;\r\n    private String userEmail;\r\n    private Double TotalPrice;\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java b/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java
+--- a/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java	(date 1677886420588)
+@@ -23,5 +23,6 @@
+     private LocalDate endDate;
+     private String userEmail;
+     private Double TotalPrice;
+-
++    private boolean Paid;
++    private boolean autoRenewed;
+ }
+Index: booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pi.bookingservice.service;\r\n\r\nimport com.pi.bookingservice.dto.Room;\r\nimport com.pi.bookingservice.model.Booking;\r\nimport com.pi.bookingservice.repository.BookingRepository;\r\nimport com.stripe.Stripe;\r\nimport com.stripe.exception.StripeException;\r\nimport lombok.RequiredArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.web.reactive.function.client.WebClient;\r\nimport reactor.core.publisher.Mono;\r\n\r\nimport javax.transaction.Transactional;\r\nimport javax.ws.rs.core.MediaType;\r\nimport java.time.LocalDate;\r\nimport java.time.temporal.ChronoUnit;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\nimport static com.stripe.Stripe.apiKey;\r\n\r\n@Service\r\n@RequiredArgsConstructor\r\n@Transactional\r\n@Slf4j\r\npublic class BookingService {\r\n    @Autowired\r\n    //private RestTemplate restTemplate;\r\n    private final WebClient.Builder webClientBuilder;\r\n    @Autowired\r\n    private BookingRepository bookingRepository;\r\n\r\n    @Value(\"${paiement-service.url}\")\r\n    private String paymentServiceUrl;\r\npublic Booking createBooking(Booking booking, String token, Double amount, String currency) {\r\n    boolean isRoomAvailable = checkRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());\r\n    if (!isRoomAvailable) {\r\n        throw new RuntimeException(\"The room is not available \");\r\n    }\r\n    // Calculate total price\r\n    Room room = getRoomById(booking.getRoomId());\r\n    int numNights = (int) ChronoUnit.DAYS.between(booking.getStartDate(), booking.getEndDate());\r\n    Double totalPrice = room.getPrice() * numNights;\r\n\r\n    // Update booking details\r\n    booking.setTotalPrice(totalPrice);\r\n    // Check payment\r\n    try {\r\n        chargeCreditCard(token, totalPrice, currency);\r\n    } catch (Exception e) {\r\n        throw new RuntimeException(\"Payment not completed\");\r\n    }\r\n    // Update room availability\r\n    updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());\r\n    return bookingRepository.save(booking);\r\n}\r\n\r\n    private boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDate endDate) {\r\n        String url = \"http://availability-service/api/availability/check?roomId={roomId}&startDate={startDate}&endDate={endDate}\";\r\n        Boolean isAvailable = webClientBuilder.build()\r\n                .get()\r\n                .uri(url, roomId, startDate, endDate)\r\n                .retrieve()\r\n                .bodyToMono(Boolean.class)\r\n                .block();\r\n        return isAvailable;\r\n    }\r\n\r\n    private void updateRoomAvailability(String roomId, LocalDate startDate, LocalDate endDate) {\r\n        String url = \"http://availability-service/api/availability/update?roomId={roomId}&startDate={startDate}&endDate={endDate}\";\r\n        webClientBuilder.build()\r\n                .put()\r\n                .uri(url, roomId, startDate, endDate)\r\n                .retrieve()\r\n                .bodyToMono(Void.class)\r\n                .block();\r\n    }\r\n    private Room getRoomById(String roomId) {\r\n        String url = \"http://room-service/api/room/{roomId}\";\r\n        Room room = webClientBuilder.build()\r\n                .get()\r\n                .uri(url, roomId)\r\n                .retrieve()\r\n                .bodyToMono(Room.class)\r\n                .block();\r\n        if (room == null) {\r\n            throw new RuntimeException(\"Room with id \" + roomId + \" not found\");\r\n        }\r\n        return room;\r\n    }\r\n    private void chargeCreditCard(String token, Double amount, String currency) {\r\n        String url = paymentServiceUrl + \"/api/payment/charge?token={token}&amount={amount}&currency={currency}\";\r\n\r\n        try {\r\n            webClientBuilder.build()\r\n                    .post()\r\n                    .uri(url, token, amount, currency)\r\n                    .retrieve()\r\n                    .bodyToMono(String.class)\r\n                    .block();\r\n        } catch (Exception e) {\r\n            throw new RuntimeException(\"Payment not completed\");\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java b/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java
+--- a/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java	(date 1678022375535)
+@@ -1,62 +1,78 @@
+ package com.pi.bookingservice.service;
+ 
++import com.itextpdf.text.DocumentException;
+ import com.pi.bookingservice.dto.Room;
++import com.pi.bookingservice.dto.Statistics;
+ import com.pi.bookingservice.model.Booking;
+ import com.pi.bookingservice.repository.BookingRepository;
+-import com.stripe.Stripe;
+-import com.stripe.exception.StripeException;
+ import lombok.RequiredArgsConstructor;
+ import lombok.extern.slf4j.Slf4j;
++import org.springframework.scheduling.annotation.EnableScheduling;
++import org.springframework.scheduling.annotation.Scheduled;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.beans.factory.annotation.Value;
++import org.springframework.mail.SimpleMailMessage;
++import org.springframework.mail.javamail.JavaMailSender;
+ import org.springframework.stereotype.Service;
+ import org.springframework.web.reactive.function.client.WebClient;
+-import reactor.core.publisher.Mono;
+ 
++import javax.mail.MessagingException;
+ import javax.transaction.Transactional;
+-import javax.ws.rs.core.MediaType;
++import java.io.IOException;
+ import java.time.LocalDate;
++
+ import java.time.temporal.ChronoUnit;
+-import java.util.HashMap;
+-import java.util.Map;
+-
+-import static com.stripe.Stripe.apiKey;
++import java.util.*;
+ 
+ @Service
+ @RequiredArgsConstructor
+ @Transactional
+ @Slf4j
++@EnableScheduling
+ public class BookingService {
+     @Autowired
+     //private RestTemplate restTemplate;
+     private final WebClient.Builder webClientBuilder;
+     @Autowired
+     private BookingRepository bookingRepository;
+-
++    @Autowired
++    private QrCodeGenerator qrCodeGenerator;
++    @Autowired
++    private EmailService emailService;
++    @Autowired
++    private JavaMailSender mailSender;
+     @Value("${paiement-service.url}")
+     private String paymentServiceUrl;
+-public Booking createBooking(Booking booking, String token, Double amount, String currency) {
+-    boolean isRoomAvailable = checkRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
+-    if (!isRoomAvailable) {
+-        throw new RuntimeException("The room is not available ");
+-    }
+-    // Calculate total price
+-    Room room = getRoomById(booking.getRoomId());
+-    int numNights = (int) ChronoUnit.DAYS.between(booking.getStartDate(), booking.getEndDate());
+-    Double totalPrice = room.getPrice() * numNights;
+-
+-    // Update booking details
+-    booking.setTotalPrice(totalPrice);
+-    // Check payment
+-    try {
+-        chargeCreditCard(token, totalPrice, currency);
+-    } catch (Exception e) {
+-        throw new RuntimeException("Payment not completed");
+-    }
+-    // Update room availability
+-    updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
+-    return bookingRepository.save(booking);
+-}
++    public Booking createBooking(Booking booking, String token, Double amount, String currency) {
++        boolean isRoomAvailable = checkRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
++        if (!isRoomAvailable) {
++            throw new RuntimeException("room introuvable");
++        }
++        Room room = getRoomById(booking.getRoomId());
++        int numNights = (int) ChronoUnit.DAYS.between(booking.getStartDate(), booking.getEndDate());
++        Double totalPrice = room.getPrice() * numNights;
++        booking.setTotalPrice(totalPrice);
++        //  payment
++        try {
++            chargeCreditCard(token, totalPrice, currency);
++        } catch (Exception e) {
++            throw new RuntimeException("Payment error");
++        }
++        // Update room date
++        updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
++        //  email
++       // emailService.sendBookingConfirmationEmail2(booking);
++        String pdfFilePath = "booking_qrcode.pdf";
++        try {
++            qrCodeGenerator.generatePdfQrCode(booking);
++            emailService.ConfirmationEmail3(booking, pdfFilePath);
++        } catch (DocumentException | IOException | MessagingException e) {
++            e.printStackTrace();
++        }
++        Booking savedBooking = bookingRepository.save(booking);
++        log.info("Booking : {}", savedBooking);
++        return savedBooking;
++    }
+ 
+     private boolean checkRoomAvailability(String roomId, LocalDate startDate, LocalDate endDate) {
+         String url = "http://availability-service/api/availability/check?roomId={roomId}&startDate={startDate}&endDate={endDate}";
+@@ -69,6 +85,35 @@
+         return isAvailable;
+     }
+ 
++    public Booking extendBooking(long bookingId, LocalDate newEndDate, String token, Double amount, String currency) {
++        Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new RuntimeException("Booking not found"));
++        Room room = getRoomById(booking.getRoomId());
++        int numNights = (int) ChronoUnit.DAYS.between(booking.getEndDate(), newEndDate);
++        Double totalPrice = room.getPrice() * numNights;
++        boolean isRoomAvailable = checkRoomAvailability(booking.getRoomId(), booking.getEndDate(), newEndDate);
++        if (!isRoomAvailable) {
++            throw new RuntimeException("The room is not available");
++        }
++        try {
++            chargeCreditCard(token, totalPrice, currency);
++        } catch (Exception e) {
++            throw new RuntimeException("Payment not completed");
++        }
++        booking.setEndDate(newEndDate);
++        booking.setTotalPrice(booking.getTotalPrice() + totalPrice);
++        updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), newEndDate);
++        emailService.confirmationEmail2(booking);
++        return bookingRepository.save(booking);
++    }
++
++    public void deleteBooking(long bookingId) {
++        Booking booking = bookingRepository.findById(bookingId)
++                .orElseThrow(() -> new RuntimeException("Booking with id " + bookingId + " not found"));
++        bookingRepository.delete(booking);
++        updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
++        emailService.cancellationEmail(booking);
++    }
++
+     private void updateRoomAvailability(String roomId, LocalDate startDate, LocalDate endDate) {
+         String url = "http://availability-service/api/availability/update?roomId={roomId}&startDate={startDate}&endDate={endDate}";
+         webClientBuilder.build()
+@@ -78,6 +123,7 @@
+                 .bodyToMono(Void.class)
+                 .block();
+     }
++
+     private Room getRoomById(String roomId) {
+         String url = "http://room-service/api/room/{roomId}";
+         Room room = webClientBuilder.build()
+@@ -91,6 +137,7 @@
+         }
+         return room;
+     }
++
+     private void chargeCreditCard(String token, Double amount, String currency) {
+         String url = paymentServiceUrl + "/api/payment/charge?token={token}&amount={amount}&currency={currency}";
+ 
+@@ -105,4 +152,79 @@
+             throw new RuntimeException("Payment not completed");
+         }
+     }
+-}
+\ No newline at end of file
++
++
++
++    private List<Booking> scheduel() {
++        LocalDate currentDate = LocalDate.now();
++        LocalDate oneWeekFromNow = currentDate.plusDays(7);
++        return bookingRepository.findByEndDateBetween(currentDate, oneWeekFromNow);
++    }
++
++   // @Scheduled(fixedRate = 30000)
++    @Scheduled(cron = "0 0 0 * * *")
++    public void NotificationEmail() {
++        List<Booking> bookingsEndingInOneWeek = scheduel();
++        for (Booking booking : bookingsEndingInOneWeek) {
++            SimpleMailMessage message = new SimpleMailMessage();
++            message.setTo(booking.getUserEmail());
++            message.setSubject("Booking Notification");
++            message.setText("Dear " + booking.getUserEmail() + ",\n\n"
++                    + "Your booking for Room : " + booking.getRoomId() + " from "
++                    + booking.getStartDate().toString() + " to " + booking.getEndDate().toString()
++                    + " is ending in one week.\n\n"
++                    + "Thank you .\n"
++                    + "-----------");
++            mailSender.send(message);
++            log.info("booking notification email to user {}", booking.getUserEmail());
++        }
++    }
++
++
++
++    public Statistics getStatistics(LocalDate startDate, LocalDate endDate) {
++        List<Booking> bookings = bookingRepository.findByStartDateBetween(startDate, endDate);
++        Long numBookings = (long) bookings.size();
++        Double totalRevenue = bookings.stream()
++                .mapToDouble(Booking::getTotalPrice)
++                .sum();
++        return new Statistics(numBookings, totalRevenue);
++    }
++    //@Scheduled(fixedRate = 20000)
++    @Scheduled(cron = "0 0 0 * * *")
++    public void deleteExpiredBookings() {
++        LocalDate yesterday = LocalDate.now().minusDays(1);
++        List<Booking> expiredBookings = bookingRepository.findByEndDateBefore(yesterday);
++        for (Booking booking : expiredBookings) {
++            bookingRepository.delete(booking);
++            updateRoomAvailability(booking.getRoomId(), booking.getStartDate(), booking.getEndDate());
++        }
++    }
++
++
++   // @Scheduled(fixedRate = 50000)
++    @Scheduled(cron = "0 0 0 * * *")
++    public void checkAutoRenewalBookings() {
++        LocalDate today = LocalDate.now();
++        List<Booking> autoRenewalBookings = bookingRepository.findByAutoRenewed(true);
++        for (Booking booking : autoRenewalBookings) {
++            LocalDate expiryDate = booking.getEndDate();
++            if (expiryDate.isEqual(today)) {
++                LocalDate newExpiryDate = expiryDate.plusMonths(1);
++                booking.setEndDate(newExpiryDate);
++                booking.setTotalPrice(calculateTotalPrice(booking.getRoomId(), booking.getStartDate(), newExpiryDate));
++                bookingRepository.save(booking);
++                emailService.RenouvEmail(booking);
++            } else if (expiryDate.minusDays(1).isEqual(today)) {
++                emailService.renouvReminderEmail(booking);
++            }
++        }
++    }
++
++    private Double calculateTotalPrice(String roomId, LocalDate startDate, LocalDate endDate) {
++        Room room = getRoomById(roomId);
++        int numNights = (int) ChronoUnit.DAYS.between(startDate, endDate);
++        return room.getPrice() * numNights;
++    }
++
++}
+Index: booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pi.bookingservice.controller;\r\n\r\nimport com.pi.bookingservice.model.Booking;\r\nimport com.pi.bookingservice.service.BookingService;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n@RestController\r\n@AllArgsConstructor\r\n@Slf4j\r\n@RequestMapping(\"/api/booking\")\r\npublic class BookingController {\r\n    @Autowired\r\n    private BookingService bookingService;\r\n    @PostMapping(\"/\")\r\n    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking,\r\n                                                 @RequestParam String token,\r\n                                                 @RequestParam Double amount,\r\n                                                 @RequestParam String currency) {\r\n        try {\r\n            Booking createdBooking = bookingService.createBooking(booking, token, amount, currency);\r\n            return ResponseEntity.ok(createdBooking);\r\n        } catch (RuntimeException ex) {\r\n            return ResponseEntity.badRequest().body(null);\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java b/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java
+--- a/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java	(date 1678019314021)
+@@ -1,13 +1,19 @@
+ package com.pi.bookingservice.controller;
+ 
++import com.pi.bookingservice.dto.Statistics;
+ import com.pi.bookingservice.model.Booking;
+ import com.pi.bookingservice.service.BookingService;
+ import lombok.AllArgsConstructor;
+ import lombok.extern.slf4j.Slf4j;
+ import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.format.annotation.DateTimeFormat;
+ import org.springframework.http.ResponseEntity;
++import org.springframework.mail.SimpleMailMessage;
++import org.springframework.mail.javamail.JavaMailSender;
+ import org.springframework.web.bind.annotation.*;
+ 
++import java.time.LocalDate;
++
+ @RestController
+ @AllArgsConstructor
+ @Slf4j
+@@ -15,11 +21,14 @@
+ public class BookingController {
+     @Autowired
+     private BookingService bookingService;
++    @Autowired
++    private JavaMailSender mailSender;
+     @PostMapping("/")
+     public ResponseEntity<Booking> createBooking(@RequestBody Booking booking,
+                                                  @RequestParam String token,
+                                                  @RequestParam Double amount,
+-                                                 @RequestParam String currency) {
++                                                 @RequestParam String currency
++                                                 ) {
+         try {
+             Booking createdBooking = bookingService.createBooking(booking, token, amount, currency);
+             return ResponseEntity.ok(createdBooking);
+@@ -27,4 +36,44 @@
+             return ResponseEntity.badRequest().body(null);
+         }
+     }
+-}
+\ No newline at end of file
++
++    @PostMapping("/{bookingId}/extend")
++    public Booking extendBooking(@PathVariable long bookingId,
++                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate newEndDate,
++                                 @RequestParam String token,
++                                 @RequestParam Double amount,
++                                 @RequestParam String currency) {
++        return bookingService.extendBooking(bookingId, newEndDate, token, amount, currency);
++    }
++
++    @DeleteMapping("/{bookingId}")
++    public void deleteBooking(@PathVariable long bookingId) {
++        bookingService.deleteBooking(bookingId);
++    }
++    @PostMapping("/send-mail")
++    public ResponseEntity<String> sendEmail(@RequestBody Booking booking) {
++        SimpleMailMessage message = new SimpleMailMessage();
++        message.setTo(booking.getUserEmail());
++        message.setSubject("Booking Confirmation - Room : " + booking.getRoomId());
++        message.setText("Dear " + booking.getUserEmail() + ",\n\n"
++                + "Your booking has been confirmed for Room : " + booking.getRoomId() + " from "
++                + booking.getStartDate().toString() + " to " + booking.getEndDate().toString() + ".\n\n"
++                + "Total price: TND" + booking.getTotalPrice() + "\n\n"
++                + "Thank you .\n"
++                + "-----------");
++
++        mailSender.send(message);
++
++        return ResponseEntity.ok("Email sent successfully!");
++    }
++    @GetMapping("/statistics")
++    public Statistics getStatistics(@RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
++                                    @RequestParam  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
++        return bookingService.getStatistics(startDate, endDate);
++    }
++
++
++}
++
++
++
+Index: booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java b/booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java
+deleted file mode 100644
+--- a/booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,9 +0,0 @@
+-package com.pi.bookingservice.dto;
+-
+-import java.time.LocalDate;
+-
+-public class RoomAvailability {
+-    private String roomId;
+-    private LocalDate startDate;
+-    private LocalDate endDate;
+-}
+Index: user/src/main/java/com/pidev/esprit/security/SecurityConfig.java
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java b/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java
+deleted file mode 100644
+--- a/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,31 +0,0 @@
+-//package com.pidev.esprit.security;
+-//
+-//import lombok.RequiredArgsConstructor;
+-//import org.springframework.context.annotation.Bean;
+-//import org.springframework.context.annotation.Configuration;
+-//import org.springframework.security.authentication.AuthenticationManager;
+-//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+-//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+-//import org.springframework.security.core.userdetails.UserDetailsService;
+-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+-//
+-//@Configuration
+-//@EnableWebSecurity
+-//@EnableGlobalMethodSecurity
+-//@RequiredArgsConstructor
+-//
+-//public class SecurityConfig extends WebSecurityConfigurerAdapter {
+-//
+-//    private final UserDetailsService userDetailsService;
+-//    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+-//
+-//
+-////    @Override
+-////    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+-////        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+-////    }
+-//
+-//
+-//}
+Index: user/src/main/java/com/pidev/esprit/repositories/UserRepository.java
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java b/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java
+deleted file mode 100644
+--- a/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,10 +0,0 @@
+-package com.pidev.esprit.repositories;
+-
+-import com.pidev.esprit.entities.User;
+-import org.springframework.data.jpa.repository.JpaRepository;
+-import org.springframework.stereotype.Repository;
+-
+-@Repository
+-public interface UserRepository extends JpaRepository<User,Long> {
+-    User findByUsername(String username);
+-}
+Index: user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java b/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java
+deleted file mode 100644
+--- a/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,9 +0,0 @@
+-package com.pidev.esprit.repositories;
+-
+-import com.pidev.esprit.entities.Role;
+-import com.pidev.esprit.entities.User;
+-import org.springframework.data.jpa.repository.JpaRepository;
+-
+-public interface RoleRepository extends JpaRepository<Role,Long> {
+-    Role findByName(String name);
+-}
+Index: user/src/main/java/com/pidev/esprit/UserApplication.java
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/UserApplication.java b/user/src/main/java/com/pidev/esprit/UserApplication.java
+deleted file mode 100644
+--- a/user/src/main/java/com/pidev/esprit/UserApplication.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,41 +0,0 @@
+-package com.pidev.esprit;
+-
+-import com.pidev.esprit.entities.Role;
+-import com.pidev.esprit.entities.User;
+-import com.pidev.esprit.services.UserService;
+-import org.springframework.boot.CommandLineRunner;
+-import org.springframework.boot.SpringApplication;
+-import org.springframework.boot.autoconfigure.SpringBootApplication;
+-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+-import org.springframework.context.annotation.Bean;
+-
+-import java.util.ArrayList;
+-
+-@SpringBootApplication
+-@EnableEurekaClient
+-public class UserApplication {
+-    public static void main(String[] args) {
+-        SpringApplication.run(UserApplication.class, args);
+-    }
+-
+-//    @Bean
+-//    CommandLineRunner run(UserService userService){
+-//        return args -> {
+-//            userService.saveRole(new Role(null,"USER"));
+-//            userService.saveRole(new Role(null,"MANAGER"));
+-//            userService.saveRole(new Role(null,"ADMIN"));
+-//            userService.saveRole(new Role(null,"SUPER_ADMIN"));
+-//
+-//
+-//
+-//
+-//            userService.addRoleToUser("seif","USER");
+-//            userService.addRoleToUser("korbi","MANAGER");
+-//            userService.addRoleToUser("sameh","Manager");
+-//            userService.addRoleToUser("sofienne","ADMIN");
+-//            userService.addRoleToUser("sameh","ADMIN");
+-//
+-//
+-//        };
+-//}
+-}
+\ No newline at end of file
+Index: paiement/src/main/java/com/pidev/esprit/config/WebClientConfig.java
+===================================================================
+diff --git a/paiement/src/main/java/com/pidev/esprit/config/WebClientConfig.java b/paiement/src/main/java/com/pidev/esprit/config/WebClientConfig.java
+deleted file mode 100644
+--- a/paiement/src/main/java/com/pidev/esprit/config/WebClientConfig.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,16 +0,0 @@
+-package com.pidev.esprit.config;
+-
+-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+-import org.springframework.context.annotation.Bean;
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.web.reactive.function.client.WebClient;
+-
+-@Configuration
+-public class WebClientConfig {
+-    @Bean
+-    @LoadBalanced
+-    public WebClient.Builder webClientBuilder(){
+-
+-        return WebClient.builder();
+-    }
+-}
+Index: user/src/main/java/com/pidev/esprit/entities/User.java
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/entities/User.java b/user/src/main/java/com/pidev/esprit/entities/User.java
+deleted file mode 100644
+--- a/user/src/main/java/com/pidev/esprit/entities/User.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,27 +0,0 @@
+-package com.pidev.esprit.entities;
+-
+-import lombok.*;
+-import javax.persistence.*;
+-import java.io.Serializable;
+-import java.util.ArrayList;
+-import java.util.Collection;
+-
+-@Entity
+-@Getter
+-@Setter
+-@AllArgsConstructor
+-@RequiredArgsConstructor
+-@Builder
+-public class User implements Serializable {
+-    @Id
+-    @GeneratedValue(strategy = GenerationType.AUTO)
+-    private Long id;
+-    private String name;
+-    private String email;
+-    private String username;
+-    private String password;
+-
+-    @ManyToMany(fetch = FetchType.EAGER) // load the user and load their roles in the db
+-    private Collection<Role> roles = new ArrayList<>();
+-
+-}
+Index: user/src/main/java/com/pidev/esprit/controllers/UserController.java
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/controllers/UserController.java b/user/src/main/java/com/pidev/esprit/controllers/UserController.java
+deleted file mode 100644
+--- a/user/src/main/java/com/pidev/esprit/controllers/UserController.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,57 +0,0 @@
+-package com.pidev.esprit.controllers;
+-
+-import com.pidev.esprit.entities.Role;
+-import com.pidev.esprit.entities.User;
+-import com.pidev.esprit.services.UserService;
+-import com.pidev.esprit.services.UserServiceImpl;
+-import lombok.Data;
+-import lombok.RequiredArgsConstructor;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.http.ResponseEntity;
+-import org.springframework.web.bind.annotation.*;
+-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+-
+-import java.net.URI;
+-import java.util.List;
+-
+-@RestController
+-@RequestMapping("/api")
+-@RequiredArgsConstructor
+-public class UserController {
+-    private final UserService userService;
+-
+-
+-    @GetMapping("/users")
+-    public ResponseEntity<List<User>> getUsers() {
+-        return ResponseEntity.ok().body(userService.getUsers());
+-    }
+-
+-    @PostMapping("/user/save")
+-    public ResponseEntity saveUser(@RequestBody User user) {
+-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
+-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+-    }
+-
+-    @PostMapping("/role/save")
+-    public ResponseEntity<Role>saveRole(@RequestBody Role role){
+-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
+-        return ResponseEntity.created(uri).body(userService.saveRole(role));
+-    }
+-
+-    @PostMapping("/role/addtouser")
+-    public ResponseEntity<?>saveRole(@RequestBody RoleToUserForm form){
+-        userService.addRoleToUser(form.getUsername(), form.getRoleName());
+-        return ResponseEntity.ok().build();
+-    }
+-
+-    @PutMapping("/update/{id}")
+-    public User updateUser (@RequestBody User user,@PathVariable Long id){
+-        return userService.updateUser(user,id);
+-    }
+-
+-}
+-@Data
+-class RoleToUserForm {
+-    private String username;
+-    private String roleName;
+-}
+Index: user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java b/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java
+deleted file mode 100644
+--- a/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,61 +0,0 @@
+-package com.pidev.esprit.services;
+-
+-import com.pidev.esprit.entities.Role;
+-import com.pidev.esprit.entities.User;
+-import com.pidev.esprit.repositories.RoleRepository;
+-import com.pidev.esprit.repositories.UserRepository;
+-import lombok.RequiredArgsConstructor;
+-import lombok.extern.slf4j.Slf4j;
+-import org.springframework.stereotype.Service;
+-
+-import javax.transaction.Transactional;
+-import java.util.List;
+-
+-@Service
+-@RequiredArgsConstructor
+-@Transactional
+-@Slf4j
+-public class UserServiceImpl implements UserService{
+-
+-
+-    private final UserRepository userRepository;
+-    private final RoleRepository roleRepository;
+-
+-
+-    @Override
+-    public User saveUser(User user) {
+-        return userRepository.save(user);
+-    }
+-
+-    @Override
+-    public Role saveRole(Role role) {
+-        return roleRepository.save(role);
+-    }
+-
+-    @Override
+-    public void addRoleToUser(String username, String roleName) {
+-        User user = userRepository.findByUsername(username);
+-        Role role = roleRepository.findByName(roleName);
+-        user.getRoles().add(role);
+-    }
+-
+-    @Override
+-    public User getUser(String username) {
+-        return userRepository.findByUsername(username);
+-    }
+-
+-    @Override
+-    public List<User> getUsers() {
+-        return userRepository.findAll();
+-    }
+-
+-    @Override
+-    public User updateUser(User User, Long id) {
+-        User userForm = userRepository.findById(id).get();
+-        userForm.setName(User.getName());
+-        userForm.setEmail(User.getEmail());
+-        userForm.setUsername(User.getUsername());
+-        userForm.setPassword(User.getPassword());
+-        return userRepository.save(userForm);
+-    }
+-}
+Index: user/src/main/java/com/pidev/esprit/services/UserService.java
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/services/UserService.java b/user/src/main/java/com/pidev/esprit/services/UserService.java
+deleted file mode 100644
+--- a/user/src/main/java/com/pidev/esprit/services/UserService.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ /dev/null	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
+@@ -1,16 +0,0 @@
+-package com.pidev.esprit.services;
+-
+-import com.pidev.esprit.entities.Role;
+-import com.pidev.esprit.entities.User;
+-
+-import java.util.List;
+-
+-public interface UserService {
+-
+-        User saveUser(User user);
+-        Role saveRole(Role role);
+-        void addRoleToUser(String username, String roleName);
+-        User getUser(String username);
+-        List<User>getUsers();
+-        User updateUser (User user,Long id) ;
+-}
+Index: paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pidev.esprit.config;\r\n\r\nimport io.swagger.v3.oas.models.OpenAPI;\r\nimport io.swagger.v3.oas.models.info.Contact;\r\nimport io.swagger.v3.oas.models.info.Info;\r\nimport org.springdoc.core.GroupedOpenApi;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\n\r\n@Configuration\r\npublic class SprigDocConfig {\r\n    @Bean\r\n    public OpenAPI springShopOpenAPI() {\r\n        return new OpenAPI().info(infoAPI());\r\n    }\r\n\r\n    public Info infoAPI() {\r\n        return new Info().title(\"Bookings Microservice\").description(\"-------------\").version(\"1.0\").contact(contactAPI());\r\n    }\r\n\r\n    public Contact contactAPI() {\r\n        Contact contact = new Contact().name(\"Slim\").email(\"*************@esprit.tn\").url(\"https://www.linkedin.com/in/**********/\");\r\n        return contact;\r\n    }\r\n    @Bean\r\n    public GroupedOpenApi productPublicApi() {\r\n        return GroupedOpenApi.builder()\r\n                .group(\"Only Product Management API\")\r\n                .pathsToMatch(\"/contrat/**\")\r\n                .pathsToExclude(\"**\")\r\n                .build();\r\n    }\r\n    @Bean\r\n    public GroupedOpenApi All() {\r\n        return GroupedOpenApi.builder()\r\n                .group(\"ALL API\")\r\n                .pathsToMatch(\"/**\")\r\n                .build();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java b/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java
+--- a/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java	(date 1677660818295)
+@@ -15,7 +15,7 @@
+     }
+ 
+     public Info infoAPI() {
+-        return new Info().title("Bookings Microservice").description("-------------").version("1.0").contact(contactAPI());
++        return new Info().title("Payment Microservice").description("-------------").version("1.0").contact(contactAPI());
+     }
+ 
+     public Contact contactAPI() {
+Index: user/src/main/java/com/example/jwtprj/Service/UserService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/Service/UserService.java b/user/src/main/java/com/example/jwtprj/Service/UserService.java
+new file mode 100644
+--- /dev/null	(date 1663273624428)
++++ b/user/src/main/java/com/example/jwtprj/Service/UserService.java	(date 1663273624428)
+@@ -0,0 +1,14 @@
++package com.example.jwtprj.Service;
++
++import com.example.jwtprj.domain.Role;
++import com.example.jwtprj.domain.User;
++
++import java.util.List;
++
++public interface UserService {
++    User saveUser(User user);
++    Role saveRole(Role role);
++    void addRoleToUser(String username, String roleName);
++    User getUser(String username);
++    List<User>getUsers();
++}
+Index: availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pi.availabilityservice.controller;\r\n\r\nimport com.pi.availabilityservice.dto.AvailabilityRequest;\r\nimport com.pi.availabilityservice.dto.BookingRequest;\r\nimport com.pi.availabilityservice.model.RoomAvailability;\r\nimport com.pi.availabilityservice.repository.RoomAvailabilityRepository;\r\nimport com.pi.availabilityservice.service.RoomAvailabilityService;\r\nimport lombok.AllArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.format.annotation.DateTimeFormat;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\nimport java.time.LocalDate;\r\nimport java.util.List;\r\n\r\n\r\n@RestController\r\n@AllArgsConstructor\r\n@Slf4j\r\n@RequestMapping(\"/api/availability\")\r\npublic class RoomAvailabilityController {\r\n\r\n    @Autowired\r\n    private RoomAvailabilityService roomAvailabilityService;\r\n//\r\n//    @GetMapping(\"/check\")\r\n//    public boolean checkRoomAvailability(@RequestParam String roomId, @RequestParam @DateTimeFormat(pattern = \"yyyy-MM-dd\") LocalDate startDate, @RequestParam @DateTimeFormat(pattern = \"yyyy-MM-dd\") LocalDate endDate) {\r\n//        return roomAvailabilityService.checkRoomAvailability(roomId, startDate, endDate);\r\n//    }\r\n@GetMapping(\"/check\")\r\npublic boolean checkRoomAvailability(@RequestParam String roomId,\r\n                                     @RequestParam @DateTimeFormat(pattern = \"yyyy-MM-dd\") LocalDate startDate,\r\n                                     @RequestParam @DateTimeFormat(pattern = \"yyyy-MM-dd\") LocalDate endDate) {\r\n    return roomAvailabilityService.checkRoomAvailability(roomId, startDate, endDate);\r\n}\r\n\r\n    @PutMapping(\"/update\")\r\n    public void updateRoomAvailability(@RequestParam String roomId,\r\n                                       @RequestParam @DateTimeFormat(pattern = \"yyyy-MM-dd\") LocalDate startDate,\r\n                                       @RequestParam @DateTimeFormat(pattern = \"yyyy-MM-dd\") LocalDate endDate) {\r\n        roomAvailabilityService.updateRoomAvailability(roomId, startDate, endDate);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java b/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java
+--- a/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java	(date 1677704170468)
+@@ -25,11 +25,6 @@
+ 
+     @Autowired
+     private RoomAvailabilityService roomAvailabilityService;
+-//
+-//    @GetMapping("/check")
+-//    public boolean checkRoomAvailability(@RequestParam String roomId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+-//        return roomAvailabilityService.checkRoomAvailability(roomId, startDate, endDate);
+-//    }
+ @GetMapping("/check")
+ public boolean checkRoomAvailability(@RequestParam String roomId,
+                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+Index: user/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <parent>\r\n        <artifactId>EspritGroupe</artifactId>\r\n        <groupId>com.pidev.esprit</groupId>\r\n        <version>1.0-SNAPSHOT</version>\r\n    </parent>\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <artifactId>user</artifactId>\r\n\r\n    <properties>\r\n        <maven.compiler.source>19</maven.compiler.source>\r\n        <maven.compiler.target>19</maven.compiler.target>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n    </properties>\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-data-jpa</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-webflux</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springdoc</groupId>\r\n            <artifactId>springdoc-openapi-ui</artifactId>\r\n            <version>1.6.9</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.mysql</groupId>\r\n            <artifactId>mysql-connector-j</artifactId>\r\n            <scope>runtime</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.projectlombok</groupId>\r\n            <artifactId>lombok</artifactId>\r\n            <optional>true</optional>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-test</artifactId>\r\n            <scope>test</scope>\r\n        </dependency>\r\n    </dependencies>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/pom.xml b/user/pom.xml
+--- a/user/pom.xml	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/user/pom.xml	(date 1677938404904)
+@@ -34,9 +34,32 @@
+             <artifactId>spring-boot-starter-webflux</artifactId>
+         </dependency>
+         <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-mail</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>com.sun.mail</groupId>
++            <artifactId>javax.mail</artifactId>
++            <version>1.6.2</version>
++        </dependency>
++        <dependency>
+             <groupId>org.springdoc</groupId>
+             <artifactId>springdoc-openapi-ui</artifactId>
+             <version>1.6.9</version>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-security</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.cloud</groupId>
++            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
++            <version>2.2.9.RELEASE</version>
++        </dependency>
++        <dependency>
++            <groupId>com.auth0</groupId>
++            <artifactId>java-jwt</artifactId>
++            <version>4.0.0</version>
+         </dependency>
+         <dependency>
+             <groupId>com.mysql</groupId>
+Index: paiement/src/main/java/com/pidev/esprit/service/StripeService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pidev.esprit.service;\r\n\r\nimport com.stripe.Stripe;\r\nimport com.stripe.exception.StripeException;\r\nimport com.stripe.model.Charge;\r\nimport com.stripe.model.PaymentIntent;\r\nimport com.stripe.param.PaymentIntentConfirmParams;\r\nimport com.stripe.param.PaymentIntentCreateParams;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.beans.factory.annotation.Value;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.math.BigDecimal;\r\nimport java.util.HashMap;\r\nimport java.util.Map;\r\n\r\n@Slf4j\r\n@Service\r\npublic class StripeService {\r\n\r\n    @Value(\"${stripe.apiKey}\")\r\n    private String apiKey;\r\n\r\n    public void chargeCreditCard(String token, Double amount, String currency) throws StripeException {\r\n\r\n        Stripe.apiKey = apiKey;\r\n\r\n        Map<String, Object> params = new HashMap<>();\r\n        params.put(\"amount\", Math.round(amount * 100));\r\n        params.put(\"currency\", currency);\r\n        params.put(\"source\", token);\r\n        params.put(\"description\", \"Payment for : ...\");\r\n\r\n        Charge charge = Charge.create(params);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/paiement/src/main/java/com/pidev/esprit/service/StripeService.java b/paiement/src/main/java/com/pidev/esprit/service/StripeService.java
+--- a/paiement/src/main/java/com/pidev/esprit/service/StripeService.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/paiement/src/main/java/com/pidev/esprit/service/StripeService.java	(date 1677660818321)
+@@ -3,14 +3,10 @@
+ import com.stripe.Stripe;
+ import com.stripe.exception.StripeException;
+ import com.stripe.model.Charge;
+-import com.stripe.model.PaymentIntent;
+-import com.stripe.param.PaymentIntentConfirmParams;
+-import com.stripe.param.PaymentIntentCreateParams;
+ import lombok.extern.slf4j.Slf4j;
+ import org.springframework.beans.factory.annotation.Value;
+ import org.springframework.stereotype.Service;
+ 
+-import java.math.BigDecimal;
+ import java.util.HashMap;
+ import java.util.Map;
+ 
+@@ -33,4 +29,22 @@
+ 
+         Charge charge = Charge.create(params);
+     }
++//public void chargeCreditCard(String cardNumber, Integer expMonth, Integer expYear, String cvc, Double amount, String currency) throws StripeException {
++//
++//    Stripe.apiKey = apiKey;
++//
++//    Map<String, Object> card = new HashMap<>();
++//    card.put("number", cardNumber);
++//    card.put("exp_month", expMonth);
++//    card.put("exp_year", expYear);
++//    card.put("cvc", cvc);
++//
++//    Map<String, Object> params = new HashMap<>();
++//    params.put("amount", Math.round(amount * 100));
++//    params.put("currency", currency);
++//    params.put("source", card);
++//    params.put("description", "Payment for order 123");
++//
++//    Charge charge = Charge.create(params);
++//}
+ }
+\ No newline at end of file
+Index: user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java b/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java
+new file mode 100644
+--- /dev/null	(date 1677713022229)
++++ b/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java	(date 1677713022229)
+@@ -0,0 +1,67 @@
++package com.example.jwtprj.Service;
++
++import com.example.jwtprj.domain.Role;
++import com.example.jwtprj.domain.User;
++import com.example.jwtprj.repo.RoleRepo;
++import com.example.jwtprj.repo.UserRepo;
++import lombok.RequiredArgsConstructor;
++import org.springframework.security.core.authority.SimpleGrantedAuthority;
++import org.springframework.security.core.userdetails.UserDetails;
++import org.springframework.security.core.userdetails.UserDetailsService;
++import org.springframework.security.core.userdetails.UsernameNotFoundException;
++import org.springframework.security.crypto.password.PasswordEncoder;
++import org.springframework.stereotype.Service;
++
++import javax.transaction.Transactional;
++import java.util.ArrayList;
++import java.util.Collection;
++import java.util.List;
++
++@Service
++@RequiredArgsConstructor
++@Transactional
++public class UserServiceImpl implements UserService , UserDetailsService {
++    private final UserRepo userRepo;
++    private final RoleRepo roleRepo;
++    private final PasswordEncoder passwordEncoder;
++    @Override
++    public User saveUser(User user) {
++        user.setPassword(passwordEncoder.encode(user.getPassword()));
++        return userRepo.save(user);
++    }
++
++    @Override
++    public Role saveRole(Role role) {
++            return roleRepo.save(role);
++    }
++
++    @Override
++    public void addRoleToUser(String username, String roleName) {
++        User user = userRepo.findByUsername(username);
++        Role role = roleRepo.findByName(roleName);
++        user.getRoles().add(role);
++    }
++
++    @Override
++    public User getUser(String username) {
++        return userRepo.findByUsername(username);
++    }
++
++    @Override
++    public List<User> getUsers() {
++        return userRepo.findAll();
++    }
++
++    @Override
++    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
++        User user = userRepo.findByUsername(username);
++        if (user == null){
++            throw new UsernameNotFoundException("user not found");
++        }
++        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
++        user.getRoles().forEach(role -> {
++            authorities.add (new SimpleGrantedAuthority(role.getName()));
++        });
++        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),authorities);
++    }
++}
+Index: paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pidev.esprit.controller;\r\n\r\nimport com.pidev.esprit.service.StripeService;\r\nimport com.stripe.exception.StripeException;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.context.annotation.PropertySource;\r\nimport org.springframework.http.HttpStatus;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.web.bind.annotation.*;\r\n\r\n\r\n@PropertySource(\"classpath:application.properties\")\r\n\r\n@RestController\r\n@RequestMapping(\"/api/payment\")\r\npublic class PaymentController {\r\n\r\n    @Autowired\r\n    private StripeService stripeService;\r\n\r\n    @PostMapping(\"/charge\")\r\n    public ResponseEntity<String> chargeCard(@RequestParam(\"token\") String token,\r\n                                             @RequestParam(\"amount\") Double amount,\r\n                                             @RequestParam(\"currency\") String currency) {\r\n\r\n        try {\r\n            stripeService.chargeCreditCard(token, amount, currency);\r\n            return ResponseEntity.ok(\"Payment processed successfully!\");\r\n        } catch (StripeException e) {\r\n            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(\"Error processing payment: \" + e.getMessage());\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java b/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java
+--- a/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java	(date 1677619658130)
+@@ -30,4 +30,19 @@
+             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing payment: " + e.getMessage());
+         }
+     }
++//@PostMapping("/charge")
++//public ResponseEntity<String> chargeCard(@RequestParam("cardNumber") String cardNumber,
++//                                         @RequestParam("expMonth") Integer expMonth,
++//                                         @RequestParam("expYear") Integer expYear,
++//                                         @RequestParam("cvc") String cvc,
++//                                         @RequestParam("amount") Double amount,
++//                                         @RequestParam("currency") String currency) {
++//
++//    try {
++//        stripeService.chargeCreditCard(cardNumber, expMonth, expYear, cvc, amount, currency);
++//        return ResponseEntity.ok("Payment processed successfully!");
++//    } catch (StripeException e) {
++//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing payment: " + e.getMessage());
++//    }
++//}
+ }
+\ No newline at end of file
+Index: user/src/main/java/com/example/jwtprj/JwtprjApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/JwtprjApplication.java b/user/src/main/java/com/example/jwtprj/JwtprjApplication.java
+new file mode 100644
+--- /dev/null	(date 1677938105788)
++++ b/user/src/main/java/com/example/jwtprj/JwtprjApplication.java	(date 1677938105788)
+@@ -0,0 +1,51 @@
++package com.example.jwtprj;
++
++import com.example.jwtprj.Service.UserService;
++import com.example.jwtprj.domain.Role;
++import com.example.jwtprj.domain.User;
++import org.springframework.boot.CommandLineRunner;
++import org.springframework.boot.SpringApplication;
++import org.springframework.boot.autoconfigure.SpringBootApplication;
++import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
++import org.springframework.context.annotation.Bean;
++import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
++import org.springframework.security.crypto.password.PasswordEncoder;
++
++import java.util.ArrayList;
++
++@SpringBootApplication
++@EnableEurekaClient
++public class JwtprjApplication {
++
++    public static void main(String[] args) {
++        SpringApplication.run(JwtprjApplication.class, args);
++    }
++
++    @Bean
++    PasswordEncoder passwordEncoder(){
++        return new BCryptPasswordEncoder() ;
++    }
++
++    @Bean
++    CommandLineRunner run(UserService userService){
++        return args -> {
++          userService.saveRole(new Role(null,"USER"));
++            userService.saveRole(new Role(null,"MANAGER"));
++            userService.saveRole(new Role(null,"ADMIN"));
++            userService.saveRole(new Role(null,"SUPER_ADMIN"));
++
++            userService.saveUser(new User(null,"John Travolta","John","1234",new ArrayList<>()));
++            userService.saveUser(new User(null,"Will Smith","Will","1234",new ArrayList<>()));
++            userService.saveUser(new User(null,"Jim Carry","Jim","1234",new ArrayList<>()));
++            userService.saveUser(new User(null,"Arnold Schwarzenegger","Arnold","1234",new ArrayList<>()));
++
++            userService.addRoleToUser("John","USER");
++            userService.addRoleToUser("John","MANAGER");
++            userService.addRoleToUser("Will","Manager");
++            userService.addRoleToUser("Jim","ADMIN");
++            userService.addRoleToUser("Arnold","SUPER_ADMIN");
++            userService.addRoleToUser("Arnold","ADMIN");
++            userService.addRoleToUser("Arnold","USER");
++        };
++    }
++}
+Index: user/src/main/java/com/example/jwtprj/Security/securityConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/Security/securityConfig.java b/user/src/main/java/com/example/jwtprj/Security/securityConfig.java
+new file mode 100644
+--- /dev/null	(date 1677979748013)
++++ b/user/src/main/java/com/example/jwtprj/Security/securityConfig.java	(date 1677979748013)
+@@ -0,0 +1,65 @@
++package com.example.jwtprj.Security;
++
++import com.example.jwtprj.filter.customAuthFilter;
++import com.example.jwtprj.filter.customAuthoriszationFilter;
++import lombok.RequiredArgsConstructor;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.security.authentication.AuthenticationManager;
++import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
++import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
++import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
++import org.springframework.security.config.annotation.web.builders.HttpSecurity;
++import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
++import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
++import org.springframework.security.config.http.SessionCreationPolicy;
++import org.springframework.security.core.userdetails.UserDetailsService;
++import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
++import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
++import org.springframework.web.client.RestTemplate;
++import org.springframework.web.reactive.function.client.WebClient;
++
++import static org.springframework.http.HttpMethod.GET;
++import static org.springframework.http.HttpMethod.POST;
++
++
++@Configuration
++@EnableWebSecurity
++@EnableMethodSecurity
++@EnableGlobalMethodSecurity(prePostEnabled = true)
++@RequiredArgsConstructor
++public class securityConfig extends WebSecurityConfigurerAdapter {
++private final UserDetailsService userDetailsService;
++private final BCryptPasswordEncoder bCryptPasswordEncoder;
++    private final WebClient.Builder webClientBuilder;
++
++
++    @Override
++    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
++        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
++    }
++
++    @Override
++    protected void configure(HttpSecurity http) throws Exception {
++        customAuthFilter customauthFilter = new customAuthFilter(authenticationManagerBean());
++        customauthFilter.setFilterProcessesUrl("/api/login");
++        http.csrf().disable();
++        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
++        http.authorizeRequests().antMatchers("/api/login/**","/api/token/refresh/**").permitAll();
++        http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("USER");
++        http.authorizeRequests().antMatchers(POST,"/api/user/**").hasAnyAuthority("USER");
++        http.authorizeRequests().antMatchers(GET,"/api/users").hasAnyAuthority("ADMIN");
++       http.authorizeRequests().anyRequest().authenticated();
++        http.addFilter(customauthFilter);
++        http.addFilterBefore(new customAuthoriszationFilter(), UsernamePasswordAuthenticationFilter.class);
++
++
++    }
++
++    @Bean
++    @Override
++    public AuthenticationManager authenticationManagerBean() throws Exception{
++        return super.authenticationManagerBean();
++    }
++
++}
+Index: booking-service/src/main/java/com/pi/bookingservice/dto/Statistics.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/dto/Statistics.java b/booking-service/src/main/java/com/pi/bookingservice/dto/Statistics.java
+new file mode 100644
+--- /dev/null	(date 1677708547057)
++++ b/booking-service/src/main/java/com/pi/bookingservice/dto/Statistics.java	(date 1677708547057)
+@@ -0,0 +1,13 @@
++package com.pi.bookingservice.dto;
++
++import lombok.*;
++
++@Data
++@Getter
++@Setter
++@AllArgsConstructor
++@NoArgsConstructor
++public class Statistics  {
++    private Long numBookings;
++    private Double totalRevenue;
++}
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"bc301083-a717-47d6-bca2-2ad9a7abb5ff\" name=\"Changes\" comment=\"f-\">\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/pom.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/config/SprigDocConfig.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/config/WebClientConfig.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/AvailabilityRequest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/BookingRequest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/Room.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/model/RoomAvailability.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/repository/RoomAvailabilityRepository.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/service/RoomAvailabilityService.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/pom.xml\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/BookingServiceApplication.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/BookingConfig.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/WebClientConfig.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/booking-service/src/test/java/com/pi/bookingservice/BookingServiceApplicationTests.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/RoomServiceApplication.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/config/SprigDocConfig.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/config/WebClientConfig.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/controller/DormController.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/controller/RoomController.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/DormRequest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/DormResponse.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomAndDormRequest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomAvailability.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomRequest.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomResponse.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/Dorm.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/Room.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/RoomType.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/repository/DormRepository.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/repository/RoomRepository.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/DormService.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/RoomService.java\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n      <change afterPath=\"$PROJECT_DIR$/room-service/src/test/java/com/pi/roomservice/RoomServiceApplicationTests.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.gitignore\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.gitignore\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/encodings.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/encodings.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/jpa-buddy.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/jpa-buddy.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/uiDesigner.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/uiDesigner.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/vcs.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/forum/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/forum/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/forum/src/main/java/com/pidev/esprit/ForumApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/forum/src/main/java/com/pidev/esprit/ForumApplication.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/forum/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/forum/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/forum/src/main/resources/banner.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/forum/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/foyer/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/room-service/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/foyer/src/main/java/com/pidev/esprit/FoyerApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/AvailabilityServiceApplication.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/foyer/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/availability-service/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/foyer/src/main/resources/banner.txt\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/gateway/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/gateway/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/gateway/src/main/java/com/pidev/esprit/ApiGateway.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/gateway/src/main/java/com/pidev/esprit/ApiGateway.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/gateway/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/gateway/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/gateway/src/main/resources/banner.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/gateway/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/maintanance/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/maintanance/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/MaintenanceApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/MaintenanceApplication.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/SpringDocConfig.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/SpringDocConfig.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/WebClientConfig.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/WebClientConfig.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/maintanance/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/maintanance/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/maintanance/src/main/resources/banner.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/maintanance/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/paiement/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/paiement/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/PaiementApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/PaiementApplication.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/paiement/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/paiement/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/paiement/src/main/resources/banner.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/paiement/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/SpringDocConfig.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/SpringDocConfig.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/WebClientConfig.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/WebClientConfig.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Category.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Category.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuRepository.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurant/src/main/resources/banner.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurant/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/server/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/server/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/server/src/main/java/com/pidev/esprit/ServerApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/server/src/main/java/com/pidev/esprit/ServerApplication.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/server/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/server/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/server/src/main/resources/banner.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/server/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/resources/application.properties\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/resources/application.properties\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/user/src/main/resources/banner.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/src/main/resources/banner.txt\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Enum\" />\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"JpbToolWindowState\">\r\n    <option name=\"isToolWindowVisible\" value=\"false\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"useMavenConfig\" value=\"true\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProblemsViewState\">\r\n    <option name=\"selectedTabId\" value=\"ProjectErrors\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2LoaH6anYhQefVJBIKkbZ4nyWgO\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"jdk.selected.JAVA_MODULE\": \"1.8 (2)\",\r\n    \"last_opened_file_path\": \"C:/Users/slimd/OneDrive/Bureau/pi/EspritGroupe/booking-service\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"spring.configuration.checksum\": \"2d04e236a9b095942f2cd2e73ab5b9fd\"\r\n  }\r\n}]]></component>\r\n  <component name=\"ReactorSettings\">\r\n    <option name=\"notificationShown\" value=\"true\" />\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\slimd\\OneDrive\\Bureau\\pi\\EspritGroupe\\booking-service\" />\r\n      <recent name=\"C:\\Users\\slimd\\OneDrive\\Bureau\\pi\\EspritGroupe\\availability-service\" />\r\n      <recent name=\"C:\\Users\\slimd\\OneDrive\\Bureau\\pi\\EspritGroupe\\room-service\" />\r\n      <recent name=\"C:\\Users\\MacBook Pro\\Desktop\\EspritGroupe\\maintanance\\src\\main\\java\\com\\pidev\\esprit\" />\r\n      <recent name=\"C:\\Users\\MacBook Pro\\Desktop\\EspritGroupe\\user\\src\\main\\java\\com\\pidev\\esprit\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunAnythingCache\">\r\n    <option name=\"myCommands\">\r\n      <command value=\"mvn clean install\" />\r\n    </option>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"configurationTypes\">\r\n      <set>\r\n        <option value=\"SpringBootApplicationConfigurationType\" />\r\n      </set>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.BookingServiceApplication\">\r\n    <configuration name=\"ApiGateway\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"gateway\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pidev.esprit.ApiGateway\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.pidev.esprit.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"AvailabilityServiceApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\">\r\n      <module name=\"availability-service\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pi.availabilityservice.AvailabilityServiceApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"BookingServiceApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"booking-service\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pi.bookingservice.BookingServiceApplication\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.pi.bookingservice.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ForumApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\">\r\n      <module name=\"forum\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pidev.esprit.ForumApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"PaiementApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\">\r\n      <module name=\"paiement\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pidev.esprit.PaiementApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"RestaurantApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"restaurant\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pidev.esprit.RestaurantApplication\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.pidev.esprit.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"RoomServiceApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\">\r\n      <module name=\"room-service\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pi.roomservice.RoomServiceApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"ServerApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"server\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pidev.esprit.ServerApplication\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.pidev.esprit.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"UserApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"user\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.pidev.esprit.UserApplication\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"com.pidev.esprit.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Spring Boot.AvailabilityServiceApplication\" />\r\n      <item itemvalue=\"Spring Boot.ForumApplication\" />\r\n      <item itemvalue=\"Spring Boot.PaiementApplication\" />\r\n      <item itemvalue=\"Spring Boot.RoomServiceApplication\" />\r\n      <item itemvalue=\"Spring Boot.BookingServiceApplication\" />\r\n      <item itemvalue=\"Spring Boot.ApiGateway\" />\r\n      <item itemvalue=\"Spring Boot.UserApplication\" />\r\n      <item itemvalue=\"Spring Boot.ServerApplication\" />\r\n      <item itemvalue=\"Spring Boot.RestaurantApplication\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Spring Boot.BookingServiceApplication\" />\r\n        <item itemvalue=\"Spring Boot.ApiGateway\" />\r\n        <item itemvalue=\"Spring Boot.ServerApplication\" />\r\n        <item itemvalue=\"Spring Boot.UserApplication\" />\r\n        <item itemvalue=\"Spring Boot.RestaurantApplication\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"bc301083-a717-47d6-bca2-2ad9a7abb5ff\" name=\"Changes\" comment=\"\" />\r\n      <created>1676539800941</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1676539800941</updated>\r\n      <workItem from=\"1676539805014\" duration=\"148000\" />\r\n      <workItem from=\"1676539963040\" duration=\"1788000\" />\r\n      <workItem from=\"1676542637721\" duration=\"5709000\" />\r\n      <workItem from=\"1676549887778\" duration=\"5484000\" />\r\n      <workItem from=\"1676831867265\" duration=\"2492000\" />\r\n      <workItem from=\"1676899545922\" duration=\"776000\" />\r\n      <workItem from=\"1676900338998\" duration=\"3492000\" />\r\n      <workItem from=\"1676904126671\" duration=\"284000\" />\r\n      <workItem from=\"1676909869286\" duration=\"4027000\" />\r\n      <workItem from=\"1676913960164\" duration=\"1234000\" />\r\n      <workItem from=\"1677070038217\" duration=\"23990000\" />\r\n      <workItem from=\"1677143624044\" duration=\"3918000\" />\r\n      <workItem from=\"1677421863999\" duration=\"2697000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"second commit\">\r\n      <created>1676914070431</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1676914070431</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Crud Generation\">\r\n      <created>1677147273687</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1677147273687</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"second commit\" />\r\n    <MESSAGE value=\"Crud Generation\" />\r\n    <MESSAGE value=\"f-\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"f-\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/.idea/workspace.xml	(date 1678022328746)
+@@ -5,107 +5,51 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="bc301083-a717-47d6-bca2-2ad9a7abb5ff" name="Changes" comment="f-">
+-      <change afterPath="$PROJECT_DIR$/availability-service/pom.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/config/SprigDocConfig.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/config/WebClientConfig.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/AvailabilityRequest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/BookingRequest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/dto/Room.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/model/RoomAvailability.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/repository/RoomAvailabilityRepository.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/service/RoomAvailabilityService.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/pom.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/BookingServiceApplication.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/BookingConfig.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/WebClientConfig.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/main/resources/banner.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/booking-service/src/test/java/com/pi/bookingservice/BookingServiceApplicationTests.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/RoomServiceApplication.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/config/SprigDocConfig.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/config/WebClientConfig.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/controller/DormController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/controller/RoomController.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/DormRequest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/DormResponse.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomAndDormRequest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomAvailability.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomRequest.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/dto/RoomResponse.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/Dorm.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/Room.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/model/RoomType.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/repository/DormRepository.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/repository/RoomRepository.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/DormService.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/RoomService.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/resources/application.properties" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/main/resources/banner.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/room-service/src/test/java/com/pi/roomservice/RoomServiceApplicationTests.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/CorsConfig.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/MailConfiguration.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/dto/Statistics.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/JwtprjApplication.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/WebClientConfig.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Security/securityConfig.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserService.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/Service/UserServiceImpl.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/api/UserController.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/domain/User.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/filter/customAuthFilter.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/filter/customAuthoriszationFilter.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/repo/RoleRepo.java" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/repo/UserRepo.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/forum/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/forum/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/forum/src/main/java/com/pidev/esprit/ForumApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/forum/src/main/java/com/pidev/esprit/ForumApplication.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/forum/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/forum/src/main/resources/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/forum/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/forum/src/main/resources/banner.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/foyer/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/room-service/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/foyer/src/main/java/com/pidev/esprit/FoyerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/AvailabilityServiceApplication.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/foyer/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/availability-service/src/main/resources/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/foyer/src/main/resources/banner.txt" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/com/pidev/esprit/ApiGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/com/pidev/esprit/ApiGateway.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/banner.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/maintanance/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/MaintenanceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/MaintenanceApplication.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/SpringDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/SpringDocConfig.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/java/com/pidev/esprit/config/WebClientConfig.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/maintanance/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/resources/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/maintanance/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/maintanance/src/main/resources/banner.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/paiement/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/PaiementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/PaiementApplication.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/availability-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/availability-service/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/availability-service/src/main/java/com/pi/availabilityservice/controller/RoomAvailabilityController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/booking-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/controller/BookingController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/dto/RoomAvailability.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/model/Booking.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/java/com/pi/bookingservice/service/BookingService.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/booking-service/src/main/resources/application.properties" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/config/SprigDocConfig.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/config/WebClientConfig.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/controller/PaymentController.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/java/com/pidev/esprit/service/StripeService.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/paiement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/resources/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/paiement/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/paiement/src/main/resources/banner.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/RestaurantApplication.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/SpringDocConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/SpringDocConfig.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/WebClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/config/WebClientConfig.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/controller/MenuController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Category.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/model/Menu.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/repository/MenuRepository.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/java/com/pidev/esprit/service/MenuService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/resources/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurant/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant/src/main/resources/banner.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/pidev/esprit/ServerApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/pidev/esprit/ServerApplication.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/banner.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/RoomService.java" beforeDir="false" afterPath="$PROJECT_DIR$/room-service/src/main/java/com/pi/roomservice/service/RoomService.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/UserApplication.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/controllers/UserController.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/java/com/example/jwtprj/domain/Role.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/entities/User.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/RoleRepository.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/repositories/UserRepository.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/security/SecurityConfig.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserService.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/src/main/java/com/pidev/esprit/services/UserServiceImpl.java" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/user/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/application.properties" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/user/src/main/resources/banner.txt" beforeDir="false" afterPath="$PROJECT_DIR$/user/src/main/resources/banner.txt" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -115,8 +59,8 @@
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
+-        <option value="Enum" />
+         <option value="Interface" />
++        <option value="Enum" />
+         <option value="Class" />
+       </list>
+     </option>
+@@ -138,7 +82,7 @@
+     </option>
+   </component>
+   <component name="ProblemsViewState">
+-    <option name="selectedTabId" value="ProjectErrors" />
++    <option name="selectedTabId" value="CurrentFile" />
+   </component>
+   <component name="ProjectId" id="2LoaH6anYhQefVJBIKkbZ4nyWgO" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+@@ -159,26 +103,30 @@
+     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+     "WebServerToolWindowFactoryState": "false",
+     "jdk.selected.JAVA_MODULE": "1.8 (2)",
+-    "last_opened_file_path": "C:/Users/slimd/OneDrive/Bureau/pi/EspritGroupe/booking-service",
++    "last_opened_file_path": "C:/Users/slimd/OneDrive/Bureau/pi/EspritGroupe/user/src/main",
+     "nodejs_package_manager_path": "npm",
+-    "spring.configuration.checksum": "2d04e236a9b095942f2cd2e73ab5b9fd"
++    "spring.configuration.checksum": "e6205d418a1a6842ff4b941410707748"
+   }
+ }]]></component>
+   <component name="ReactorSettings">
+     <option name="notificationShown" value="true" />
+   </component>
+   <component name="RecentsManager">
++    <key name="CreateClassDialog.RecentsKey">
++      <recent name="com.pidev.esprit.entities" />
++    </key>
+     <key name="CopyFile.RECENT_KEYS">
++      <recent name="C:\Users\slimd\OneDrive\Bureau\pi\EspritGroupe\user\src\main" />
+       <recent name="C:\Users\slimd\OneDrive\Bureau\pi\EspritGroupe\booking-service" />
+       <recent name="C:\Users\slimd\OneDrive\Bureau\pi\EspritGroupe\availability-service" />
+       <recent name="C:\Users\slimd\OneDrive\Bureau\pi\EspritGroupe\room-service" />
+       <recent name="C:\Users\MacBook Pro\Desktop\EspritGroupe\maintanance\src\main\java\com\pidev\esprit" />
+-      <recent name="C:\Users\MacBook Pro\Desktop\EspritGroupe\user\src\main\java\com\pidev\esprit" />
+     </key>
+   </component>
+   <component name="RunAnythingCache">
+     <option name="myCommands">
+       <command value="mvn clean install" />
++      <command value="mvn clean install -U " />
+     </option>
+   </component>
+   <component name="RunDashboard">
+@@ -225,6 +173,26 @@
+     <configuration name="ForumApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+       <module name="forum" />
+       <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.ForumApplication" />
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="JwtprjApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
++      <module name="user" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.jwtprj.JwtprjApplication" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="com.example.jwtprj.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="MaintenanceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
++      <module name="maintanance" />
++      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.MaintenanceApplication" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -236,15 +204,9 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="RestaurantApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
++    <configuration name="RestaurantApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+       <module name="restaurant" />
+       <option name="SPRING_BOOT_MAIN_CLASS" value="com.pidev.esprit.RestaurantApplication" />
+-      <extension name="coverage">
+-        <pattern>
+-          <option name="PATTERN" value="com.pidev.esprit.*" />
+-          <option name="ENABLED" value="true" />
+-        </pattern>
+-      </extension>
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+@@ -283,23 +245,25 @@
+       </method>
+     </configuration>
+     <list>
++      <item itemvalue="Spring Boot.MaintenanceApplication" />
+       <item itemvalue="Spring Boot.AvailabilityServiceApplication" />
+       <item itemvalue="Spring Boot.ForumApplication" />
+       <item itemvalue="Spring Boot.PaiementApplication" />
+       <item itemvalue="Spring Boot.RoomServiceApplication" />
++      <item itemvalue="Spring Boot.RestaurantApplication" />
++      <item itemvalue="Spring Boot.ApiGateway" />
++      <item itemvalue="Spring Boot.JwtprjApplication" />
+       <item itemvalue="Spring Boot.BookingServiceApplication" />
+-      <item itemvalue="Spring Boot.ApiGateway" />
+       <item itemvalue="Spring Boot.UserApplication" />
+       <item itemvalue="Spring Boot.ServerApplication" />
+-      <item itemvalue="Spring Boot.RestaurantApplication" />
+     </list>
+     <recent_temporary>
+       <list>
+         <item itemvalue="Spring Boot.BookingServiceApplication" />
+         <item itemvalue="Spring Boot.ApiGateway" />
+         <item itemvalue="Spring Boot.ServerApplication" />
++        <item itemvalue="Spring Boot.JwtprjApplication" />
+         <item itemvalue="Spring Boot.UserApplication" />
+-        <item itemvalue="Spring Boot.RestaurantApplication" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -324,6 +288,10 @@
+       <workItem from="1677070038217" duration="23990000" />
+       <workItem from="1677143624044" duration="3918000" />
+       <workItem from="1677421863999" duration="2697000" />
++      <workItem from="1677658985386" duration="19508000" />
++      <workItem from="1677761374704" duration="59542000" />
++      <workItem from="1677968823768" duration="10725000" />
++      <workItem from="1678013817858" duration="8176000" />
+     </task>
+     <task id="LOCAL-00001" summary="second commit">
+       <created>1676914070431</created>
+Index: user/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>### DATABASE ###\r\nspring.datasource.url=jdbc:mysql://localhost:3306/user-service\\\r\n?createDatabaseIfNotExist=true\\\r\n&useUnicode=true\\\r\n&useJDBCCompliantTimezoneShift=true\\\r\n&useLegacyDatetimeCode=false&serverTimezone=UTC\r\nspring.datasource.username=root\r\nspring.datasource.password=\r\n### JPA / HIBERNATE ###\r\nspring.jpa.show-sql=true\r\nspring.jpa.hibernate.ddl-auto=update\r\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect\r\n### Server###\r\nserver.port=0\r\neureka.client.serviceUrl.defaulZone=http://localhost:8761/eureka\r\nspring.application.name=user-service
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/user/src/main/resources/application.properties b/user/src/main/resources/application.properties
+--- a/user/src/main/resources/application.properties	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/user/src/main/resources/application.properties	(date 1677973415486)
+@@ -8,7 +8,7 @@
+ spring.datasource.password=
+ ### JPA / HIBERNATE ###
+ spring.jpa.show-sql=true
+-spring.jpa.hibernate.ddl-auto=update
++spring.jpa.hibernate.ddl-auto=create-drop
+ spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+ ### Server###
+ server.port=0
+Index: booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java b/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java
+new file mode 100644
+--- /dev/null	(date 1678022375518)
++++ b/booking-service/src/main/java/com/pi/bookingservice/service/EmailService.java	(date 1678022375518)
+@@ -0,0 +1,111 @@
++package com.pi.bookingservice.service;
++
++
++import com.pi.bookingservice.model.Booking;
++import lombok.RequiredArgsConstructor;
++import lombok.extern.slf4j.Slf4j;
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.core.io.FileSystemResource;
++import org.springframework.mail.SimpleMailMessage;
++import org.springframework.mail.javamail.JavaMailSender;
++import org.springframework.mail.javamail.MimeMessageHelper;
++import org.springframework.scheduling.annotation.EnableScheduling;
++import org.springframework.stereotype.Service;
++
++import javax.mail.MessagingException;
++import javax.mail.internet.MimeMessage;
++import javax.transaction.Transactional;
++
++@Service
++@RequiredArgsConstructor
++@Transactional
++@Slf4j
++@EnableScheduling
++public class EmailService {
++
++    @Autowired
++    private JavaMailSender javaMailSender;
++    @Autowired
++    private JavaMailSender mailSender;
++    @Autowired
++    private QrCodeGenerator qrCodeGenerator;
++
++    public void sendEmail(String to, String subject, String text) {
++
++        SimpleMailMessage message = new SimpleMailMessage();
++        message.setFrom("sender@example.com");
++        message.setTo(to);
++        message.setSubject(subject);
++        message.setText(text);
++        javaMailSender.send(message);
++    }
++
++    public void confirmationEmail2(Booking booking) {
++        SimpleMailMessage message = new SimpleMailMessage();
++        message.setTo(booking.getUserEmail());
++        message.setSubject("Booking Confirmation");
++        message.setText("Dear " + booking.getUserEmail() + ",\n\n"
++                + "Your booking has been confirmed for Room : " + booking.getRoomId() + " from "
++                + booking.getStartDate().toString() + " to " + booking.getEndDate().toString() + ".\n\n"
++                + "Total price: TND" + booking.getTotalPrice() + "\n\n"
++                + "Thank you .\n"
++                + "-----------");
++        mailSender.send(message);
++    }
++    public void cancellationEmail(Booking booking) {
++        SimpleMailMessage message = new SimpleMailMessage();
++        message.setTo(booking.getUserEmail());
++        message.setSubject("Booking Cancellation");
++        message.setText("Dear " + booking.getUserEmail() + ",\n\n"
++                + "Your booking for Room : " + booking.getRoomId() + " from "
++                + booking.getStartDate().toString() + " to " + booking.getEndDate().toString() + " has been cancelled.\n\n"
++                + "Thank you.\n"
++                + "-----------");
++        mailSender.send(message);
++    }
++    public void renouvReminderEmail(Booking booking) {
++        SimpleMailMessage message = new SimpleMailMessage();
++        message.setTo(booking.getUserEmail());
++        message.setSubject("Booking Auto Renewal Reminder");
++        message.setText("Dear " + booking.getUserEmail() + ",\n\n"
++                + "Your booking (ID: " + booking.getBookingId() + ") is set to renew automatically tomorrow.\n"
++                + "If you want to cancel this renewal, please do so before tomorrow.\n\n"
++                + "Thank you.\n"
++                + "-----------");
++        mailSender.send(message);
++    }
++    public void RenouvEmail(Booking booking) {
++        SimpleMailMessage message = new SimpleMailMessage();
++        message.setTo(booking.getUserEmail());
++        message.setSubject("Booking Auto Renewal Confirmation");
++        message.setText("Dear " + booking.getUserEmail() + ",\n\n"
++                + "Your booking (ID: " + booking.getBookingId() + ") has been renewed automatically for 1 month.\n\n"
++                + "Thank you.\n"
++                + "-----------");
++        mailSender.send(message);
++    }
++
++
++    public void ConfirmationEmail3(Booking booking, String pdfFilePath) throws MessagingException {
++        MimeMessage message = mailSender.createMimeMessage();
++        MimeMessageHelper helper = new MimeMessageHelper(message, true);
++
++        helper.setTo(booking.getUserEmail());
++        helper.setSubject("Booking Confirmation");
++        helper.setText("Dear " + booking.getUserEmail() + ",\n\n"
++                + "Your booking has been confirmed for Room : " + booking.getRoomId() + " from "
++                + booking.getStartDate().toString() + " to " + booking.getEndDate().toString() + ".\n\n"
++                + "Total price: TND" + booking.getTotalPrice() + "\n\n"
++                + "Thank you.\n"
++                + "-----------");
++
++        // Add the PDF attachment
++        FileSystemResource pdfFile = new FileSystemResource(pdfFilePath);
++        helper.addAttachment("booking_qrcode.pdf", pdfFile);
++
++        mailSender.send(message);
++    }
++
++
++}
++
+Index: booking-service/src/main/java/com/pi/bookingservice/config/CorsConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/config/CorsConfig.java b/booking-service/src/main/java/com/pi/bookingservice/config/CorsConfig.java
+new file mode 100644
+--- /dev/null	(date 1677977625393)
++++ b/booking-service/src/main/java/com/pi/bookingservice/config/CorsConfig.java	(date 1677977625393)
+@@ -0,0 +1,18 @@
++package com.pi.bookingservice.config;
++
++import org.springframework.context.annotation.Configuration;
++import org.springframework.web.reactive.config.CorsRegistry;
++import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
++
++@Configuration
++public class CorsConfig implements WebMvcConfigurer {
++
++    //@Override
++    public void addCorsMappings(CorsRegistry registry) {
++        registry.addMapping("/api/**")
++                .allowedOrigins("*")
++                .allowedMethods("GET", "POST", "PUT", "DELETE")
++                .allowedHeaders("*")
++                .maxAge(3600);
++    }
++}
+\ No newline at end of file
+Index: user/src/main/java/com/example/jwtprj/Security/WebClientConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/Security/WebClientConfig.java b/user/src/main/java/com/example/jwtprj/Security/WebClientConfig.java
+new file mode 100644
+--- /dev/null	(date 1677979599120)
++++ b/user/src/main/java/com/example/jwtprj/Security/WebClientConfig.java	(date 1677979599120)
+@@ -0,0 +1,17 @@
++package com.example.jwtprj.Security;
++
++import org.springframework.cloud.client.loadbalancer.LoadBalanced;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.web.client.RestTemplate;
++import org.springframework.web.reactive.function.client.WebClient;
++
++@Configuration
++public class WebClientConfig {
++    @Bean
++    @LoadBalanced
++    public WebClient webClient(){
++
++        return WebClient.builder().build();
++    }
++}
+Index: booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pi.bookingservice.repository;\r\n\r\nimport com.pi.bookingservice.model.Booking;\r\nimport org.springframework.data.jpa.repository.JpaRepository;\r\n\r\nimport java.time.LocalDate;\r\nimport java.util.List;\r\n\r\npublic interface BookingRepository  extends JpaRepository<Booking, Long> {\r\n    List<Booking> findByRoomId(String roomId);\r\n\r\n    List<Booking> findByStartDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate startDate, LocalDate endDate);\r\n\r\n    List<Booking> findByUserEmail(String userEmail);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java b/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java
+--- a/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/booking-service/src/main/java/com/pi/bookingservice/repository/BookingRepository.java	(date 1677888588075)
+@@ -2,14 +2,18 @@
+ 
+ import com.pi.bookingservice.model.Booking;
+ import org.springframework.data.jpa.repository.JpaRepository;
++import org.springframework.stereotype.Repository;
+ 
+ import java.time.LocalDate;
+ import java.util.List;
+-
++@Repository
+ public interface BookingRepository  extends JpaRepository<Booking, Long> {
+-    List<Booking> findByRoomId(String roomId);
++    List<Booking> findByEndDateBetween(LocalDate start, LocalDate end);
++    List<Booking> findByStartDateBetween(LocalDate startDate, LocalDate endDate);
++    List<Booking> findByEndDateBefore(LocalDate yesterday);
++    List<Booking> findByAutoRenewedAndEndDateBetween(boolean autoRenewed, LocalDate startDate, LocalDate endDate);
+ 
+-    List<Booking> findByStartDateGreaterThanEqualAndEndDateLessThanEqual(LocalDate startDate, LocalDate endDate);
++    List<Booking> findByAutoRenewed(boolean autoRenewed);
+ 
+-    List<Booking> findByUserEmail(String userEmail);
++
+ }
+Index: booking-service/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>### DATABASE ###\r\nspring.datasource.url=jdbc:mysql://localhost:3306/booking-service\\\r\n?createDatabaseIfNotExist=true\\\r\n&useUnicode=true\\\r\n&useJDBCCompliantTimezoneShift=true\\\r\n&useLegacyDatetimeCode=false&serverTimezone=UTC\r\nspring.datasource.username=root\r\nspring.datasource.password=\r\n### JPA / HIBERNATE ###\r\nspring.jpa.show-sql=true\r\nspring.jpa.hibernate.ddl-auto=update\r\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect\r\n### Server###\r\nserver.port=0\r\neureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka\r\nspring.application.name=booking-service\r\n\r\npaiement-service.url=http://paiement-service\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/booking-service/src/main/resources/application.properties b/booking-service/src/main/resources/application.properties
+--- a/booking-service/src/main/resources/application.properties	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/booking-service/src/main/resources/application.properties	(date 1677967693335)
+@@ -16,3 +16,12 @@
+ spring.application.name=booking-service
+ 
+ paiement-service.url=http://paiement-service
++# SMTP Server
++spring.mail.host=smtp.gmail.com
++spring.mail.port=587
++spring.mail.username=slimmm537@gmail.com
++spring.mail.password=eumijbagymawmtlw
++
++# TLS configuration
++spring.mail.properties.mail.smtp.starttls.enable=true
++spring.mail.properties.mail.smtp.starttls.required=true
+\ No newline at end of file
+Index: availability-service/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <parent>\r\n        <artifactId>EspritGroupe</artifactId>\r\n        <groupId>com.pidev.esprit</groupId>\r\n        <version>1.0-SNAPSHOT</version>\r\n    </parent>\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <artifactId>availability-service</artifactId>\r\n\r\n    <properties>\r\n        <maven.compiler.source>19</maven.compiler.source>\r\n        <maven.compiler.target>19</maven.compiler.target>\r\n        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>\r\n    </properties>\r\n\r\n    <dependencies>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-data-jpa</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-web</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.cloud</groupId>\r\n            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-webflux</artifactId>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springdoc</groupId>\r\n            <artifactId>springdoc-openapi-ui</artifactId>\r\n            <version>1.6.9</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.mysql</groupId>\r\n            <artifactId>mysql-connector-j</artifactId>\r\n            <scope>runtime</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.projectlombok</groupId>\r\n            <artifactId>lombok</artifactId>\r\n            <optional>true</optional>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.springframework.boot</groupId>\r\n            <artifactId>spring-boot-starter-test</artifactId>\r\n            <scope>test</scope>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>com.pidev.esprit</groupId>\r\n            <artifactId>room-service</artifactId>\r\n            <version>1.0-SNAPSHOT</version>\r\n            <scope>compile</scope>\r\n        </dependency>\r\n    </dependencies>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/availability-service/pom.xml b/availability-service/pom.xml
+--- a/availability-service/pom.xml	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/availability-service/pom.xml	(date 1677704837538)
+@@ -39,6 +39,7 @@
+             <artifactId>springdoc-openapi-ui</artifactId>
+             <version>1.6.9</version>
+         </dependency>
++
+         <dependency>
+             <groupId>com.mysql</groupId>
+             <artifactId>mysql-connector-j</artifactId>
+Index: booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pi.bookingservice.config;\r\n\r\nimport io.swagger.v3.oas.models.OpenAPI;\r\nimport io.swagger.v3.oas.models.info.Contact;\r\nimport io.swagger.v3.oas.models.info.Info;\r\nimport org.springdoc.core.GroupedOpenApi;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\n\r\n@Configuration\r\npublic class SprigDocConfig {\r\n    @Bean\r\n    public OpenAPI springShopOpenAPI() {\r\n        return new OpenAPI().info(infoAPI());\r\n    }\r\n\r\n    public Info infoAPI() {\r\n        return new Info().title(\"Bookings Microservice\").description(\"-------------\").version(\"1.0\").contact(contactAPI());\r\n    }\r\n\r\n    public Contact contactAPI() {\r\n        Contact contact = new Contact().name(\"Slim\").email(\"*************@esprit.tn\").url(\"https://www.linkedin.com/in/**********/\");\r\n        return contact;\r\n    }\r\n    @Bean\r\n    public GroupedOpenApi productPublicApi() {\r\n        return GroupedOpenApi.builder()\r\n                .group(\"Only Product Management API\")\r\n                .pathsToMatch(\"/contrat/**\")\r\n                .pathsToExclude(\"**\")\r\n                .build();\r\n    }\r\n    @Bean\r\n    public GroupedOpenApi All() {\r\n        return GroupedOpenApi.builder()\r\n                .group(\"ALL API\")\r\n                .pathsToMatch(\"/**\")\r\n                .build();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java b/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java
+--- a/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/booking-service/src/main/java/com/pi/bookingservice/config/SprigDocConfig.java	(date 1677973781411)
+@@ -8,7 +8,7 @@
+ import org.springframework.context.annotation.Configuration;
+ 
+ @Configuration
+-public class SprigDocConfig {
++public class SprigDocConfig  {
+     @Bean
+     public OpenAPI springShopOpenAPI() {
+         return new OpenAPI().info(infoAPI());
+Index: booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java b/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java
+new file mode 100644
+--- /dev/null	(date 1678021199073)
++++ b/booking-service/src/main/java/com/pi/bookingservice/service/QrCodeGenerator.java	(date 1678021199073)
+@@ -0,0 +1,59 @@
++package com.pi.bookingservice.service;
++
++
++import com.itextpdf.text.*;
++import com.itextpdf.text.pdf.BarcodeQRCode;
++import com.itextpdf.text.pdf.PdfWriter;
++import com.pi.bookingservice.model.Booking;
++import com.pi.bookingservice.repository.BookingRepository;
++import lombok.AllArgsConstructor;
++import lombok.NoArgsConstructor;
++
++
++import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.stereotype.Component;
++
++import java.io.FileOutputStream;
++import java.io.IOException;
++
++@AllArgsConstructor
++@NoArgsConstructor
++@Component
++public class QrCodeGenerator {
++    @Autowired
++    private BookingRepository bookingRepository;
++
++    public void generatePdfQrCode(Booking booking) throws DocumentException, IOException {
++        // Create a new document
++        Document document = new Document();
++        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("booking_qrcode.pdf"));
++
++        // Open the document
++        document.open();
++
++        // Add a paragraph with the booking details
++        Paragraph paragraph = new Paragraph();
++        paragraph.add(new Chunk("Booking ID: " + booking.getBookingId() + "\n"));
++        paragraph.add(new Chunk("Room ID: " + booking.getRoomId() + "\n"));
++        paragraph.add(new Chunk("Start date: " + booking.getStartDate() + "\n"));
++        paragraph.add(new Chunk("End date: " + booking.getEndDate() + "\n"));
++        paragraph.add(new Chunk("User email: " + booking.getUserEmail() + "\n"));
++        paragraph.add(new Chunk("Total price: " + booking.getTotalPrice() + "\n"));
++        document.add(paragraph);
++
++        // Generate a QR code with the booking details
++        String bookingDetails = "Booking ID: " + booking.getBookingId() + "\n" +
++                "Room ID: " + booking.getRoomId() + "\n" +
++                "Start date: " + booking.getStartDate() + "\n" +
++                "End date: " + booking.getEndDate() + "\n" +
++                "User email: " + booking.getUserEmail() + "\n" +
++                "Total price: " + booking.getTotalPrice();
++        BarcodeQRCode qrCode = new BarcodeQRCode(bookingDetails, 1000, 1000, null);
++        Image qrCodeImage = qrCode.getImage();
++        qrCodeImage.scaleAbsolute(200, 200);
++        document.add(qrCodeImage);
++
++        // Close the document
++        document.close();
++    }
++}
+\ No newline at end of file
+Index: user/src/main/java/com/example/jwtprj/repo/UserRepo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/repo/UserRepo.java b/user/src/main/java/com/example/jwtprj/repo/UserRepo.java
+new file mode 100644
+--- /dev/null	(date 1663273624416)
++++ b/user/src/main/java/com/example/jwtprj/repo/UserRepo.java	(date 1663273624416)
+@@ -0,0 +1,9 @@
++package com.example.jwtprj.repo;
++
++import com.example.jwtprj.domain.User;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++public interface UserRepo extends JpaRepository<User,Long> {
++    User findByUsername(String username) ;
++
++}
+Index: user/src/main/java/com/example/jwtprj/repo/RoleRepo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/repo/RoleRepo.java b/user/src/main/java/com/example/jwtprj/repo/RoleRepo.java
+new file mode 100644
+--- /dev/null	(date 1663273624460)
++++ b/user/src/main/java/com/example/jwtprj/repo/RoleRepo.java	(date 1663273624460)
+@@ -0,0 +1,9 @@
++package com.example.jwtprj.repo;
++
++import com.example.jwtprj.domain.Role;
++import org.springframework.data.jpa.repository.JpaRepository;
++
++public interface RoleRepo extends JpaRepository<Role,Long> {
++    Role findByName(String name) ;
++
++}
+Index: user/src/main/java/com/pidev/esprit/entities/Role.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/pidev/esprit/entities/Role.java b/user/src/main/java/com/example/jwtprj/domain/Role.java
+rename from user/src/main/java/com/pidev/esprit/entities/Role.java
+rename to user/src/main/java/com/example/jwtprj/domain/Role.java
+--- a/user/src/main/java/com/pidev/esprit/entities/Role.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/user/src/main/java/com/example/jwtprj/domain/Role.java	(date 1663273624409)
+@@ -1,23 +1,22 @@
+-package com.pidev.esprit.entities;
++package com.example.jwtprj.domain;
+ 
+-import lombok.*;
++import lombok.AllArgsConstructor;
++import lombok.Data;
++import lombok.NoArgsConstructor;
+ 
+ import javax.persistence.Entity;
+ import javax.persistence.GeneratedValue;
+ import javax.persistence.GenerationType;
+ import javax.persistence.Id;
+-import java.io.Serializable;
++
++@Data
+ @Entity
+-@Getter
+-@Setter
++@NoArgsConstructor
+ @AllArgsConstructor
+-@RequiredArgsConstructor
+ 
+-public class Role implements Serializable {
++public class Role {
+     @Id
+     @GeneratedValue(strategy = GenerationType.AUTO)
+-    private Long id;
++    private  Long id;
+     private String name;
+-
+-
+ }
+Index: paiement/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>### DATABASE ###\r\nspring.datasource.url=jdbc:mysql://localhost:3306/paiement-service\\\r\n?createDatabaseIfNotExist=true\\\r\n&useUnicode=true\\\r\n&useJDBCCompliantTimezoneShift=true\\\r\n&useLegacyDatetimeCode=false&serverTimezone=UTC\r\nspring.datasource.username=root\r\nspring.datasource.password=\r\n### JPA / HIBERNATE ###\r\nspring.jpa.show-sql=true\r\nspring.jpa.hibernate.ddl-auto=update\r\nspring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect\r\n## Server###\r\nserver.port=0\r\neureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka\r\nspring.application.name=paiement-service\r\nstripe.apiKey=sk_test_51MgEnVJLaSjV8kIt3mFd1e1BPC9sB8KeIoOIgaMSEKi37gsm84t8nAVTURKFskqHLL2r1jP0JH3HWgFzdRpIuQjj00pAb5yKIb\r\nstripe.publicKey=pk_test_51MgEnVJLaSjV8kItcmSAEZXrnN3ZlOh3tW5jf94ygNLt2SvXAINBnNvO4urECyJlv3KG4CZtBbQI3Wm3TWuH4xqg00TQTZML7z
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/paiement/src/main/resources/application.properties b/paiement/src/main/resources/application.properties
+--- a/paiement/src/main/resources/application.properties	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/paiement/src/main/resources/application.properties	(date 1677660818307)
+@@ -14,5 +14,6 @@
+ server.port=0
+ eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
+ spring.application.name=paiement-service
++
+ stripe.apiKey=sk_test_51MgEnVJLaSjV8kIt3mFd1e1BPC9sB8KeIoOIgaMSEKi37gsm84t8nAVTURKFskqHLL2r1jP0JH3HWgFzdRpIuQjj00pAb5yKIb
+ stripe.publicKey=pk_test_51MgEnVJLaSjV8kItcmSAEZXrnN3ZlOh3tW5jf94ygNLt2SvXAINBnNvO4urECyJlv3KG4CZtBbQI3Wm3TWuH4xqg00TQTZML7z
+\ No newline at end of file
+Index: booking-service/src/main/java/com/pi/bookingservice/config/MailConfiguration.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/booking-service/src/main/java/com/pi/bookingservice/config/MailConfiguration.java b/booking-service/src/main/java/com/pi/bookingservice/config/MailConfiguration.java
+new file mode 100644
+--- /dev/null	(date 1677620110768)
++++ b/booking-service/src/main/java/com/pi/bookingservice/config/MailConfiguration.java	(date 1677620110768)
+@@ -0,0 +1,41 @@
++package com.pi.bookingservice.config;
++
++import org.springframework.beans.factory.annotation.Value;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++import org.springframework.mail.javamail.JavaMailSender;
++import org.springframework.mail.javamail.JavaMailSenderImpl;
++
++import java.util.Properties;
++
++@Configuration
++public class MailConfiguration {
++
++    @Value("${spring.mail.host}")
++    private String mailHost;
++
++    @Value("${spring.mail.port}")
++    private int mailPort;
++
++    @Value("${spring.mail.username}")
++    private String mailUsername;
++
++    @Value("${spring.mail.password}")
++    private String mailPassword;
++
++    @Bean
++    public JavaMailSender javaMailSender() {
++        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
++        mailSender.setHost(mailHost);
++        mailSender.setPort(mailPort);
++
++        mailSender.setUsername(mailUsername);
++        mailSender.setPassword(mailPassword);
++
++        Properties props = mailSender.getJavaMailProperties();
++        props.put("mail.smtp.auth", "true");
++        props.put("mail.smtp.starttls.enable", "true");
++
++        return mailSender;
++    }
++}
+\ No newline at end of file
+Index: user/src/main/java/com/example/jwtprj/domain/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/domain/User.java b/user/src/main/java/com/example/jwtprj/domain/User.java
+new file mode 100644
+--- /dev/null	(date 1663273624422)
++++ b/user/src/main/java/com/example/jwtprj/domain/User.java	(date 1663273624422)
+@@ -0,0 +1,20 @@
++package com.example.jwtprj.domain;
++
++import lombok.AllArgsConstructor;
++import lombok.Data;
++import lombok.NoArgsConstructor;
++
++import javax.persistence.*;
++import java.util.ArrayList;
++import java.util.Collection;
++
++@Data @Entity @NoArgsConstructor @AllArgsConstructor
++public class User {
++    @Id @GeneratedValue(strategy = GenerationType.AUTO)
++    private  Long id;
++    private String name;
++    private String username;
++    private String password;
++    @ManyToMany(fetch = FetchType.EAGER)
++    private Collection<Role> roles = new ArrayList<>();
++}
+Index: user/src/main/java/com/example/jwtprj/filter/customAuthoriszationFilter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/filter/customAuthoriszationFilter.java b/user/src/main/java/com/example/jwtprj/filter/customAuthoriszationFilter.java
+new file mode 100644
+--- /dev/null	(date 1663273624437)
++++ b/user/src/main/java/com/example/jwtprj/filter/customAuthoriszationFilter.java	(date 1663273624437)
+@@ -0,0 +1,75 @@
++package com.example.jwtprj.filter;
++
++import com.auth0.jwt.JWT;
++import com.auth0.jwt.JWTVerifier;
++import com.auth0.jwt.algorithms.Algorithm;
++import com.auth0.jwt.interfaces.DecodedJWT;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import lombok.extern.slf4j.Slf4j;
++import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
++import org.springframework.security.core.authority.SimpleGrantedAuthority;
++import org.springframework.security.core.context.SecurityContextHolder;
++import org.springframework.web.filter.OncePerRequestFilter;
++
++import javax.servlet.FilterChain;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
++import java.io.IOException;
++import java.util.ArrayList;
++import java.util.Collection;
++import java.util.HashMap;
++import java.util.Map;
++
++import static java.util.Arrays.stream;
++import static org.springframework.http.HttpHeaders.AUTHORIZATION;
++import static org.springframework.http.HttpStatus.FORBIDDEN;
++import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
++
++@Slf4j
++public class customAuthoriszationFilter extends OncePerRequestFilter {
++
++
++    @Override
++    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
++        if (request.getServletPath().equals("/api/login")||request.getServletPath().equals("/api/token/refresh")){
++            filterChain.doFilter(request,response);
++        }else {
++            String authorizationHeader = request.getHeader(AUTHORIZATION);
++            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
++            {
++                try{
++
++                    String token = authorizationHeader.substring("Bearer ".length());
++                    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
++                    JWTVerifier verifier = JWT.require(algorithm).build();
++                    DecodedJWT decodedJWT = verifier.verify(token);
++                    String username = decodedJWT.getSubject();
++                    String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
++                    Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
++                    stream(roles).forEach(role -> {
++                        authorities.add(new SimpleGrantedAuthority(role));
++                    });
++                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,null,authorities);
++                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
++                    filterChain.doFilter(request,response);
++
++                }catch (Exception exception){
++                    log.error("error : {}",exception.getMessage());
++                    response.setHeader("error",exception.getMessage());
++                    response.setStatus(FORBIDDEN.value());
++                   // response.sendError(FORBIDDEN.value());
++                    Map<String,String> error = new HashMap<>();
++                    error.put("error_message",exception.getMessage());
++                    response.setContentType(APPLICATION_JSON_VALUE);
++                    new ObjectMapper().writeValue(response.getOutputStream(),error);
++                }
++
++            }
++            else
++            {
++                filterChain.doFilter(request,response);
++            }
++        }
++    }
++}
+Index: user/src/main/java/com/example/jwtprj/filter/customAuthFilter.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/filter/customAuthFilter.java b/user/src/main/java/com/example/jwtprj/filter/customAuthFilter.java
+new file mode 100644
+--- /dev/null	(date 1663273624454)
++++ b/user/src/main/java/com/example/jwtprj/filter/customAuthFilter.java	(date 1663273624454)
+@@ -0,0 +1,68 @@
++package com.example.jwtprj.filter;
++
++import com.auth0.jwt.JWT;
++import com.auth0.jwt.algorithms.Algorithm;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import lombok.extern.slf4j.Slf4j;
++import org.springframework.security.authentication.AuthenticationManager;
++import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
++import org.springframework.security.core.Authentication;
++import org.springframework.security.core.AuthenticationException;
++import org.springframework.security.core.GrantedAuthority;
++import org.springframework.security.core.userdetails.User;
++import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
++
++import javax.servlet.FilterChain;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
++import java.io.IOException;
++import java.util.Date;
++import java.util.HashMap;
++import java.util.Map;
++import java.util.stream.Collectors;
++
++import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
++
++
++@Slf4j
++public class customAuthFilter extends UsernamePasswordAuthenticationFilter {
++   private final AuthenticationManager authenticationManager ;
++
++    public customAuthFilter(AuthenticationManager authenticationManager) {
++        this.authenticationManager = authenticationManager;
++    }
++
++    @Override
++    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
++        String username = request.getParameter("username");
++        String password = request.getParameter("password");
++        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,password);
++        return authenticationManager.authenticate(authenticationToken);
++    }
++
++    @Override
++    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
++        User user = (User)authentication.getPrincipal();
++        //change secret with a valid key
++        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
++        String access_token = JWT.create()
++                .withSubject(user.getUsername())
++                .withExpiresAt(new Date(System.currentTimeMillis()+ 10*60*1000))
++                .withIssuer(request.getRequestURL().toString())
++                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
++                .sign(algorithm);
++        String refresh_token = JWT.create()
++                .withSubject(user.getUsername())
++                .withExpiresAt(new Date(System.currentTimeMillis()+ 30*60*1000))
++                .withIssuer(request.getRequestURL().toString())
++                .sign(algorithm);
++        //response.setHeader("access_token",access_token);
++        //response.setHeader("refresh_token",refresh_token);
++        Map<String,String> tokens = new HashMap<>();
++        tokens.put("access_token",access_token);
++        tokens.put("refresh_token",refresh_token);
++        response.setContentType(APPLICATION_JSON_VALUE);
++        new ObjectMapper().writeValue(response.getOutputStream(),tokens);
++    }
++}
+Index: user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java b/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java
+new file mode 100644
+--- /dev/null	(date 1677979599113)
++++ b/user/src/main/java/com/example/jwtprj/Service/SprigDocConfig.java	(date 1677979599113)
+@@ -0,0 +1,40 @@
++package com.example.jwtprj.Service;
++
++import io.swagger.v3.oas.models.OpenAPI;
++import io.swagger.v3.oas.models.info.Contact;
++import io.swagger.v3.oas.models.info.Info;
++import org.springdoc.core.GroupedOpenApi;
++import org.springframework.context.annotation.Bean;
++import org.springframework.context.annotation.Configuration;
++
++@Configuration
++public class SprigDocConfig {
++    @Bean
++    public OpenAPI springShopOpenAPI() {
++        return new OpenAPI().info(infoAPI());
++    }
++
++    public Info infoAPI() {
++        return new Info().title("Foyer/Room Microservice").description("-------------").version("1.0").contact(contactAPI());
++    }
++
++    public Contact contactAPI() {
++        Contact contact = new Contact().name("Slim Derouiche").email("*************@esprit.tn").url("https://www.linkedin.com/in/**********/");
++        return contact;
++    }
++    @Bean
++    public GroupedOpenApi productPublicApi() {
++        return GroupedOpenApi.builder()
++                .group("Only Product Management API")
++                .pathsToMatch("/contrat/**")
++                .pathsToExclude("**")
++                .build();
++    }
++    @Bean
++    public GroupedOpenApi All() {
++        return GroupedOpenApi.builder()
++                .group("ALL API")
++                .pathsToMatch("/**")
++                .build();
++    }
++}
+Index: room-service/src/main/java/com/pi/roomservice/service/RoomService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pi.roomservice.service;\r\n\r\nimport com.pi.roomservice.dto.RoomAvailability;\r\nimport com.pi.roomservice.dto.RoomRequest;\r\nimport com.pi.roomservice.dto.RoomResponse;\r\nimport com.pi.roomservice.model.Dorm;\r\nimport com.pi.roomservice.repository.DormRepository;\r\nimport com.pi.roomservice.repository.RoomRepository;\r\nimport com.pi.roomservice.model.Room;\r\nimport lombok.RequiredArgsConstructor;\r\nimport lombok.extern.slf4j.Slf4j;\r\nimport org.springframework.core.ParameterizedTypeReference;\r\nimport org.springframework.http.ResponseEntity;\r\nimport org.springframework.stereotype.Service;\r\nimport org.springframework.transaction.annotation.Transactional;\r\nimport org.springframework.web.client.RestTemplate;\r\nimport org.springframework.web.reactive.function.client.WebClient;\r\nimport org.springframework.web.util.UriComponentsBuilder;\r\nimport reactor.core.publisher.Mono;\r\n\r\nimport java.time.LocalDate;\r\nimport java.time.format.DateTimeFormatter;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Optional;\r\nimport java.util.stream.Collectors;\r\n\r\n\r\n@Service\r\n@RequiredArgsConstructor\r\n@Slf4j\r\n@Transactional\r\npublic class RoomService {\r\n    private static final String AVAILABILITY_SERVICE_URL = \"http://availability-service/api/availability\";\r\n\r\n    private final WebClient.Builder webClientBuilder;\r\n    private final RoomRepository roomRepository;\r\n    private final DormRepository dormRepository;\r\n\r\n    public Room createRoomInDorm(String name, RoomRequest roomRequest) {\r\n        Dorm dorm = dormRepository.findByName(name);\r\n\r\n        if (dorm == null) {\r\n            log.error(\"Dorm with name {} not found\", name);\r\n            return null;\r\n        }\r\n\r\n        Room room = Room.builder()\r\n                .roomNumber(roomRequest.getRoomNumber())\r\n                .roomType(roomRequest.getRoomType())\r\n                .description(roomRequest.getDescription())\r\n                .surface(roomRequest.getSurface())\r\n                .price(roomRequest.getPrice())\r\n                .build();\r\n\r\n        dorm.getRooms().add(room);\r\n\r\n        dormRepository.save(dorm);\r\n\r\n        log.info(\"Room {} is saved in dorm {}\", room.getRoomNumber(), dorm.getName());\r\n\r\n        return room;\r\n    }\r\n\r\n    public Room createRoom(RoomRequest roomRequest) {\r\n        Room room = Room.builder()\r\n                .roomNumber(roomRequest.getRoomNumber())\r\n                .roomType(roomRequest.getRoomType())\r\n                .description(roomRequest.getDescription())\r\n                .surface(roomRequest.getSurface())\r\n                .price(roomRequest.getPrice())\r\n                .build();\r\n        roomRepository.save(room);\r\n\r\n        log.info(\"Room {} is saved\", room.getId());\r\n        return room;\r\n    }\r\n\r\n    public List<RoomResponse> getAllRooms() {\r\n        List<Room> rooms = roomRepository.findAll();\r\n\r\n        return rooms.stream().map(this::mapToRoomResponse).toList();\r\n    }\r\n\r\n    public RoomResponse getRoomByNumber(String roomNumber) {\r\n        Room room = roomRepository.findByRoomNumber(roomNumber);\r\n\r\n        if (room == null) {\r\n            log.error(\"Room with number {} not found\", roomNumber);\r\n            return null;\r\n        } else {\r\n            return mapToRoomResponse(room);\r\n        }\r\n    }\r\n    public RoomResponse getRoomById(String id) {\r\n        Optional<Room> roomOptional = roomRepository.findById(id);\r\n        if (roomOptional.isPresent()) {\r\n            Room room = roomOptional.get();\r\n            return mapToRoomResponse(room);\r\n        } else {\r\n            log.error(\"Room with number {} not found\", id);\r\n            return null;\r\n        }\r\n    }\r\n    public void updateRoom(String roomNumber, RoomRequest roomRequest) {\r\n        Room room = roomRepository.findByRoomNumber(roomNumber);\r\n\r\n        if (room == null) {\r\n            log.error(\"Room with number {} not found\", roomNumber);\r\n        } else {\r\n            room.setRoomType(roomRequest.getRoomType());\r\n            room.setDescription(roomRequest.getDescription());\r\n            room.setSurface(roomRequest.getSurface());\r\n            room.setPrice(roomRequest.getPrice());\r\n\r\n            roomRepository.save(room);\r\n\r\n            log.info(\"Room {} is updated\", room.getId());\r\n        }\r\n    }\r\n\r\n    public void deleteRoom(String roomNumber) {\r\n        Room room = roomRepository.findByRoomNumber(roomNumber);\r\n\r\n        if (room == null) {\r\n            log.error(\"Room with number {} not found\", roomNumber);\r\n        } else {\r\n            roomRepository.delete(room);\r\n\r\n            log.info(\"Room {} is deleted\", room.getId());\r\n        }\r\n    }\r\n\r\n    public RoomResponse mapToRoomResponse(Room room) {\r\n        return RoomResponse.builder()\r\n                .id(room.getId())\r\n                .roomNumber(room.getRoomNumber())\r\n                .roomType(room.getRoomType())\r\n                .description(room.getDescription())\r\n                .surface(room.getSurface())\r\n                .price(room.getPrice())\r\n                .build();\r\n    }\r\n\r\n\r\n    public Boolean checkAvailability(String roomId, LocalDate startDate, LocalDate endDate) {\r\n        String availabilityUrl = \"http://availability-service/api/availability/check?roomId=\"\r\n                + roomId + \"&startDate=\" + startDate.toString() + \"&endDate=\" + endDate.toString();\r\n\r\n        RestTemplate restTemplate = new RestTemplate();\r\n        ResponseEntity<Boolean> response = restTemplate.getForEntity(availabilityUrl, Boolean.class);\r\n        return response.getBody();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/room-service/src/main/java/com/pi/roomservice/service/RoomService.java b/room-service/src/main/java/com/pi/roomservice/service/RoomService.java
+--- a/room-service/src/main/java/com/pi/roomservice/service/RoomService.java	(revision 234e4c8be47e3e852c8420cb257747a6c9feeb42)
++++ b/room-service/src/main/java/com/pi/roomservice/service/RoomService.java	(date 1677974576656)
+@@ -39,12 +39,10 @@
+ 
+     public Room createRoomInDorm(String name, RoomRequest roomRequest) {
+         Dorm dorm = dormRepository.findByName(name);
+-
+         if (dorm == null) {
+             log.error("Dorm with name {} not found", name);
+             return null;
+         }
+-
+         Room room = Room.builder()
+                 .roomNumber(roomRequest.getRoomNumber())
+                 .roomType(roomRequest.getRoomType())
+@@ -52,16 +50,13 @@
+                 .surface(roomRequest.getSurface())
+                 .price(roomRequest.getPrice())
+                 .build();
+-
+         dorm.getRooms().add(room);
+-
+         dormRepository.save(dorm);
+-
+         log.info("Room {} is saved in dorm {}", room.getRoomNumber(), dorm.getName());
+ 
+         return room;
+     }
+-
++    //@PreAuthorize("hasAuthority('USER')")
+     public Room createRoom(RoomRequest roomRequest) {
+         Room room = Room.builder()
+                 .roomNumber(roomRequest.getRoomNumber())
+Index: user/src/main/java/com/example/jwtprj/api/UserController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/src/main/java/com/example/jwtprj/api/UserController.java b/user/src/main/java/com/example/jwtprj/api/UserController.java
+new file mode 100644
+--- /dev/null	(date 1678014283062)
++++ b/user/src/main/java/com/example/jwtprj/api/UserController.java	(date 1678014283062)
+@@ -0,0 +1,99 @@
++package com.example.jwtprj.api;
++
++import com.auth0.jwt.JWT;
++import com.auth0.jwt.JWTVerifier;
++import com.auth0.jwt.algorithms.Algorithm;
++import com.auth0.jwt.interfaces.DecodedJWT;
++import com.example.jwtprj.Service.UserService;
++import com.example.jwtprj.domain.Role;
++import com.example.jwtprj.domain.User;
++import com.fasterxml.jackson.databind.ObjectMapper;
++import lombok.Data;
++import lombok.RequiredArgsConstructor;
++import org.springframework.http.ResponseEntity;
++import org.springframework.web.bind.annotation.*;
++import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
++
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
++import java.io.IOException;
++import java.net.URI;
++import java.util.*;
++import java.util.stream.Collectors;
++
++import static org.springframework.http.HttpHeaders.AUTHORIZATION;
++import static org.springframework.http.HttpStatus.FORBIDDEN;
++import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
++
++@RestController
++@RequiredArgsConstructor
++@RequestMapping("/api")
++public class UserController {
++    private final UserService userService;
++
++    @GetMapping("/users")
++    public ResponseEntity<List<User>>getUsers(){
++        return ResponseEntity.ok().body(userService.getUsers());
++    }
++    @PostMapping("/user/save")
++    public ResponseEntity<User>saveUser(@RequestBody User user){
++        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
++        return ResponseEntity.created(uri).body(userService.saveUser(user));
++    }
++    @PostMapping("/role/save")
++    public ResponseEntity<Role>saveRole(@RequestBody Role role){
++        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
++        return ResponseEntity.created(uri).body(userService.saveRole(role));
++    }
++    @PostMapping("/role/addtouser")
++    public ResponseEntity<?>saveRole(@RequestBody RoleToUserForm form){
++        userService.addRoleToUser(form.getUsername(), form.getRoleName());
++        return ResponseEntity.ok().build();
++    }
++    @PostMapping("/token/refresh")
++    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
++        String authorizationHeader = request.getHeader(AUTHORIZATION);
++        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
++        {
++            try{
++
++                String refresh_token = authorizationHeader.substring("Bearer ".length());
++                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
++                JWTVerifier verifier = JWT.require(algorithm).build();
++                DecodedJWT decodedJWT = verifier.verify(refresh_token);
++                String username = decodedJWT.getSubject();
++                User user = userService.getUser(username);
++
++                String access_token = JWT.create()
++                        .withSubject(user.getUsername())
++                        .withExpiresAt(new Date(System.currentTimeMillis()+ 10*60*1000))
++                        .withIssuer(request.getRequestURL().toString())
++                        .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
++                        .sign(algorithm);
++                Map<String,String> tokens = new HashMap<>();
++                tokens.put("access_token",access_token);
++                tokens.put("refresh_token",refresh_token);
++                response.setContentType(APPLICATION_JSON_VALUE);
++                new ObjectMapper().writeValue(response.getOutputStream(),tokens);
++            }catch (Exception exception){
++                response.setHeader("error",exception.getMessage());
++                response.setStatus(FORBIDDEN.value());
++                // response.sendError(FORBIDDEN.value());
++                Map<String,String> error = new HashMap<>();
++                error.put("error_message",exception.getMessage());
++                response.setContentType(APPLICATION_JSON_VALUE);
++                new ObjectMapper().writeValue(response.getOutputStream(),error);
++            }
++
++        }
++        else
++        {
++        throw new RuntimeException("Refresh token is missing") ;    }
++        }
++
++}
++@Data
++class RoleToUserForm{
++    private String username ;
++    private String roleName ;
++}
