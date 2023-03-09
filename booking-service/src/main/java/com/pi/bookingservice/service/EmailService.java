@@ -69,12 +69,12 @@ public class EmailService {
         message.setSubject("Booking Auto Renewal Reminder");
         message.setText("Dear " + booking.getUserEmail() + ",\n\n"
                 + "Your booking (ID: " + booking.getBookingId() + ") is set to renew automatically tomorrow.\n"
-                + "If you want to cancel this renewal, please do so before tomorrow.\n\n"
+                + "Cancel before 24h .\n\n"
                 + "Thank you.\n"
                 + "-----------");
         mailSender.send(message);
     }
-    public void RenouvEmail(Booking booking) {
+    public void renouvEmail(Booking booking) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(booking.getUserEmail());
         message.setSubject("Booking Auto Renewal Confirmation");
@@ -82,11 +82,12 @@ public class EmailService {
                 + "Your booking (ID: " + booking.getBookingId() + ") has been renewed automatically for 1 month.\n\n"
                 + "Thank you.\n"
                 + "-----------");
+
         mailSender.send(message);
     }
 
 
-    public void ConfirmationEmail3(Booking booking, String pdfFilePath) throws MessagingException {
+    public void confirmationEmail3(Booking booking, String pdfFilePath) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
@@ -99,7 +100,7 @@ public class EmailService {
                 + "Thank you.\n"
                 + "-----------");
 
-        // Add the PDF attachment
+        // Add PDF
         FileSystemResource pdfFile = new FileSystemResource(pdfFilePath);
         helper.addAttachment("booking_qrcode.pdf", pdfFile);
 
