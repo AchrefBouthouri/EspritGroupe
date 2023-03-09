@@ -18,6 +18,7 @@ public class MenuPreferences implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+    String mail;
     @Temporal(TemporalType.DATE)
     Date dateDcreation;
 

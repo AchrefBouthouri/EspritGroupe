@@ -21,7 +21,7 @@ public class MenuDesemaine implements Serializable {
     long id;
     @Temporal(TemporalType.DATE)
     Date CreatedAt;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<Menu>menuList;
 
 }

@@ -1,8 +1,11 @@
 package com.pidev.esprit.service;
 import com.pidev.esprit.model.Menu;
 import com.pidev.esprit.model.MenuDesemaine;
+import com.pidev.esprit.model.MenuPreferences;
 import com.pidev.esprit.model.Rien;
 import com.pidev.esprit.repository.MenuDeSemaineRepository;
+import com.pidev.esprit.repository.MenuPreferencesRepository;
+import com.pidev.esprit.repository.MenuRepository;
 import com.pidev.esprit.repository.RienRepository;
 import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.asm.Advice;
@@ -19,9 +22,15 @@ import java.util.*;
 @Slf4j
 public class MenuDeSemaineService {
     @Autowired
+    private MenuRepository menuRepository;
+    @Autowired
+    private MenuPreferencesRepository menuPreferencesRepository;
+    @Autowired
     MenuDeSemaineRepository menuDeSemaineRepository;
     @Autowired
     RienRepository rienRepository;
+    @Autowired
+    JavaEmailService javaEmailService;
 
     public String MenuD() {
         List<MenuDesemaine> menuDesemaines = menuDeSemaineRepository.findAll();
@@ -59,6 +68,9 @@ public class MenuDeSemaineService {
 
 
     }
+
+
+
 
 
 

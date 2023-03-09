@@ -2,6 +2,7 @@ package com.pidev.esprit.controller;
 
 import com.pidev.esprit.model.Menu;
 import com.pidev.esprit.model.Repas;
+import com.pidev.esprit.repository.MenuDeSemaineRepository;
 import com.pidev.esprit.repository.MenuRepository;
 import com.pidev.esprit.service.MenuService;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,12 @@ public class MenuController {
 
     @Autowired
     private MenuService menuService;
+    private final MenuDeSemaineRepository menuDeSemaineRepository;
+    @DeleteMapping("supprimer /{id}")
+    public void supprimerMenu(@RequestParam long id){menuService.SupprimerMenu(id);}
+
+    @GetMapping("/trouverMenu/{id}")
+    public Menu trouverMenu(@RequestParam long id ){return menuRepository.findAllById(id);}
 
     @GetMapping("/findmenu/{nom}")
     public Menu trouverMenu(@PathParam("nom") String nom){
@@ -85,6 +92,12 @@ public class MenuController {
 
         }
 
+
+
+    }
+    @PutMapping("/updatemenu/{id}")
+    public void modifierMenu2 (@RequestParam long id, @RequestBody Menu menu){
+        menuService.UpdateMenu(id,menu);
 
 
     }

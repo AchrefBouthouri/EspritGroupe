@@ -16,13 +16,16 @@ public class MenuPreferencesServices {
     MenuPreferencesRepository mpr;
     @Autowired
     MenuRepository mr;
-    public void AjouterPreferencesMenu(MenuPreferences mp , long id){
+    public void AjouterPreferencesMenu(MenuPreferences mp , long id ){
         Menu m = mr.findAllById(id);
+        mpr.save(mp);
         List<MenuPreferences> mps = (List<MenuPreferences>) m.getMenuPreferences();
         mp.setDateDcreation(new Date());
         mps.add(mp);
         m.setMenuPreferences(mps);
         mr.save(m);
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.pidev.esprit.controller;
 
+import com.pidev.esprit.model.Menu;
 import com.pidev.esprit.service.CalorieService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ public class CalorieController {
     public CalorieController(CalorieService calorieService) {
         this.calorieService = calorieService;
     }
+
 
     @GetMapping("/{mealName}")
     public ResponseEntity<String> getCaloriePercentage(@PathVariable String mealName,
